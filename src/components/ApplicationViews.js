@@ -14,7 +14,7 @@ import EventManager from "./events/EventManager"
 // import EventsForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
-// import ChatList from "./chat/ChatList"
+import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import FriendManager from "./friends/FriendManager"
@@ -22,28 +22,28 @@ import FriendManager from "./friends/FriendManager"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
 
-  class ApplicationViews extends Component {
-    state = {
-      users: [],
-      messages: [],
-      articles: [],
-      friends: [],
-      tasks: [],
-      events: []
-    }
+class ApplicationViews extends Component {
+  state = {
+    users: [],
+    messages: [],
+    articles: [],
+    friends: [],
+    tasks: [],
+    events: []
+  }
 
-    componentDidMount() {
-      const newState = {}
-      
-      ChatManager.getAll().then(messages => (newState.messages = messages))
-      ArticleManager.getAll().then(articles => (newState.articles = articles))
-      FriendManager.getAll().then(friends => (newState.friends = friends))
-      TaskManager.getAll().then(tasks => (newState.tasks = tasks))
-      EventManager.getAll().then(events => (newState.events = events))
+  componentDidMount() {
+    const newState = {}
+
+    ChatManager.getAll().then(messages => (newState.messages = messages))
+    ArticleManager.getAll().then(articles => (newState.articles = articles))
+    FriendManager.getAll().then(friends => (newState.friends = friends))
+    TaskManager.getAll().then(tasks => (newState.tasks = tasks))
+    EventManager.getAll().then(events => (newState.events = events))
       .then(() => this.setState(newState))
-    }
+  }
 
-    addTask = task =>
+  addTask = task =>
     TaskManager.post(task)
       .then(() => TaskManager.getAll())
       .then(tasks =>
@@ -51,13 +51,13 @@ import FriendManager from "./friends/FriendManager"
           tasks: tasks
         })
       )
-    
-      deleteTask = id => {
-        return TaskManager.removeAndList(id).then(tasks => {
-          this.props.history.push("/tasks")
-          this.setState({ tasks: tasks })
-        })
-      }
+
+  deleteTask = id => {
+    return TaskManager.removeAndList(id).then(tasks => {
+      this.props.history.push("/tasks")
+      this.setState({ tasks: tasks })
+    })
+  }
 
   render() {
     return (
@@ -86,8 +86,7 @@ import FriendManager from "./friends/FriendManager"
 
         <Route
           path="/messages" render={props => {
-            return null
-            // Remove null and return the component which will show the messages
+            return <ChatList messages={this.state.messages} />
           }}
         />
 

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const url = "http://localhost:8088"
-=======
 const url = "http://localhost:8088";
->>>>>>> c1fcc3ceb601f05e8bcef16e2e1056454612275a
 
 export default {
     get(id) {
@@ -13,20 +9,20 @@ export default {
     },
     delete(id) {
         return fetch(`${url}/messages/${id}`, {
-            method: "DELETE"
-        })
-        .then(l => l.json())
+                method: "DELETE"
+            })
+            .then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/messages/${id}`, {
-          method: "DELETE"
-        })
-          .then(e => e.json())
-          .then(this.getAll);
-      },
+                method: "DELETE"
+            })
+            .then(e => e.json())
+            .then(this.getAll);
+    },
     postMessage(newMessage) {
         return fetch(`${url}/messages`, {
-            method:"POST",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
