@@ -2,7 +2,7 @@ import React, { Component } from "react"
 
 export default class ChatList extends Component {
     render(){
-        console.log(this.props.messages);
+        console.log(this.props.history)
         return(
             <React.Fragment>
                 <section className="messages">
@@ -20,6 +20,18 @@ export default class ChatList extends Component {
                         )
                     }
                     </div>
+                </section>
+                <section className = "send-message">
+                <div className="sendButton">
+                    <button type="button"
+                        className="btn btn-success"
+                        onClick={() => {
+                            this.props.history.push("/messages/new")
+                        }
+                        }>
+                        Send Message
+                    </button>
+                </div>
                 </section>
             </React.Fragment>
         )
