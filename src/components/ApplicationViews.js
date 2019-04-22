@@ -1,8 +1,9 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
-// import ArticleList from "./articles/ArticlesList"
-// import ArtricleManager from "./articles/ArticlesManager"
-// import ArticleForm from "./articles/ArticlesForm"
+import ArticleList from "./articles/ArticlesList"
+import ArtricleManager from "./articles/ArticlesManager"
+import ArticleForm from "./articles/ArticlesForm"
+import ArticlesManager from "./articles/ArticlesManager";
 // import Article from "./articles/Articles"
 // import TaskManager from "./tasks/TaskManager"
 // import TaskList from "./tasks/TaskList"
@@ -31,6 +32,22 @@ import React, { Component } from "react";
 
 export default class ApplicationViews extends Component {
 
+  state = {
+    articles: [],
+    tasks: [],
+    events: [],
+    chat: [],
+    freinds: []
+  }
+
+
+componentDidMount() {
+  const newState = {}
+
+    ArticlesManager.getAll()
+    .then(articles =>newState.articles = articles)
+}
+
   render() {
     return (
       <React.Fragment>
@@ -43,9 +60,8 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          exact path="/" render={props => {
-            return null
-            // Remove null and return the component which will show news articles
+          exact path="/articles" render={props => {
+            return 
           }}
         />
 
