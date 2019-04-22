@@ -1,3 +1,5 @@
+const url = "http://localhost:8088";
+
 export default {
     get(id) {
         return fetch(`${url}/events/${id}`).then(l => l.json())
@@ -11,6 +13,13 @@ export default {
         })
         .then(l => l.json())
     },
+    removeAndList(id) {
+        return fetch(`${url}/events/${id}`, {
+          method: "DELETE"
+        })
+          .then(e => e.json())
+          .then(this.getAll);
+      },
     postEvent(newEvent) {
         return fetch(`${url}/events`, {
             method:"POST",
