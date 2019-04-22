@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const url = "http://localhost:8088"
-=======
-const url = "http://localhost:8088";
->>>>>>> c1fcc3ceb601f05e8bcef16e2e1056454612275a
 
 export default {
     get(id) {

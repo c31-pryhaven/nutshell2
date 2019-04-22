@@ -34,7 +34,7 @@ import FriendManager from "./friends/FriendManager"
 
     componentDidMount() {
       const newState = {}
-      
+
       ChatManager.getAll().then(messages => (newState.messages = messages))
       ArticleManager.getAll().then(articles => (newState.articles = articles))
       FriendManager.getAll().then(friends => (newState.friends = friends))
@@ -51,7 +51,7 @@ import FriendManager from "./friends/FriendManager"
           tasks: tasks
         })
       )
-    
+
       deleteTask = id => {
         return TaskManager.removeAndList(id).then(tasks => {
           this.props.history.push("/tasks")
