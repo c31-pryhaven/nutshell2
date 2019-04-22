@@ -1,3 +1,5 @@
+const url = "http://localhost:8088"
+
 export default {
     get(id) {
         return fetch(`${url}/events/${id}`).then(l => l.json())
