@@ -1,3 +1,5 @@
+const url = "http://localhost:8088";
+
 export default {
     get(id) {
         return fetch(`${url}/friends/${id}`).then(l => l.json())
@@ -11,6 +13,13 @@ export default {
         })
         .then(l => l.json())
     },
+    removeAndList(id) {
+        return fetch(`${url}/friends/${id}`, {
+          method: "DELETE"
+        })
+          .then(e => e.json())
+          .then(this.getAll);
+      },
     postFriend(newFriend) {
         return fetch(`${url}/friends`, {
             method:"POST",
