@@ -1,3 +1,5 @@
+const url = "http://localhost:8088";
+
 export default {
     get(id) {
         return fetch(`${url}/messages/${id}`).then(l => l.json())
@@ -7,13 +9,20 @@ export default {
     },
     delete(id) {
         return fetch(`${url}/messages/${id}`, {
-            method: "DELETE"
-        })
-        .then(l => l.json())
+                method: "DELETE"
+            })
+            .then(l => l.json())
+    },
+    removeAndList(id) {
+        return fetch(`${url}/messages/${id}`, {
+                method: "DELETE"
+            })
+            .then(e => e.json())
+            .then(this.getAll);
     },
     postMessage(newMessage) {
         return fetch(`${url}/messages`, {
-            method:"POST",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },

@@ -14,6 +14,13 @@ export default {
         })
         .then(l => l.json())
     },
+    removeAndList(id) {
+        return fetch(`${url}/articles/${id}`, {
+          method: "DELETE"
+        })
+          .then(e => e.json())
+          .then(this.getAll);
+      },
     postArticle(newArticle) {
         return fetch(`${url}/articles`, {
             method:"POST",
