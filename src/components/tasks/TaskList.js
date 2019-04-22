@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
 import "./task.css"
 
 export default class TaskList extends Component {
@@ -25,9 +24,6 @@ export default class TaskList extends Component {
                 <div className="card-body">
                   <h5 className="card-title">
                     {task.taskName}
-                    <Link className="nav-link" to={`/tasks/${task.id}`}>
-                      Details
-                    </Link>
                     <button
                       onClick={() => this.props.deleteTask(task.id)}
                       className="btn btn-success">
@@ -37,7 +33,8 @@ export default class TaskList extends Component {
                   </h5>
                 </div>
               </div>
-            ))}
+            ))
+            }
           </section>
         </section>
       </React.Fragment>
