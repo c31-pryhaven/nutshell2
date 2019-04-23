@@ -51,30 +51,21 @@
       "id": 5,
       "message": "Bye",
       "userId": 3
-<<<<<<< HEAD
     },
     {
-      "message": "oh hai mark",
+      "message": "test",
       "userId": 1,
       "id": 6
-=======
->>>>>>> master
     }
   ],
   "articles": [
     {
       "id": 1,
-<<<<<<< HEAD
       "userId": 2,
       "url": "https://www.wkrn.com/news/removal-of-cherry-trees-begins-in-downtown-nashville/1897109191",
       "title": "Removal of Cherry trees",
       "synopsis": "The NFL demands to have cherry trees taken down",
       "timeStamp": ""
-=======
-      "title": "Removal of Cherry tree",
-      "url": "https://www.wkrn.com/news/removal-of-cherry-trees-begins-in-downtown-nashville/1897109191",
-      "synopsis": "The NFL demands to have cherry trees taken down"
->>>>>>> master
     },
     {
       "id": 2,
@@ -153,8 +144,6 @@
   ],
   "tasks": [
     {
-<<<<<<< HEAD
-=======
       "id": 1,
       "userId": 2,
       "taskName": "Take out trash",
@@ -169,7 +158,6 @@
       "isComplete": false
     },
     {
->>>>>>> master
       "id": 3,
       "userId": 3,
       "taskName": "trim hedges",
@@ -189,6 +177,11 @@
       "taskName": "file taxes",
       "targetDate": "4/15/2019",
       "isComplete": false
+    },
+    {
+      "id": 6,
+      "taskName": "test 2",
+      "targetDate": "2019-04-24"
     }
   ],
   "events": [
