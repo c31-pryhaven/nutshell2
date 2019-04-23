@@ -21,7 +21,7 @@ export default class TaskForm extends Component {
   constructNewTask = evt => {
     evt.preventDefault()
     if (this.state.task === "") {
-      window.alert("Please select a caretaker")
+      window.alert("Please enter a task")
     } else {
       const task = {
         taskName: this.state.taskName,

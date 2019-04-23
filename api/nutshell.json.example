@@ -178,6 +178,10 @@
         {
             "userId": 5,
             "eventName": "NFL draft",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-04-27",
             "eventLocation": "Nashville,TN",
             "id": 1
@@ -186,6 +190,10 @@
             "id": 2,
             "userId": 2,
             "eventName": "Demo Day",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "www.nss.com",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-03-22",
             "eventLocation": "500 Interstate Blvd S"
         },
@@ -193,6 +201,10 @@
             "id": 3,
             "userId": 3,
             "eventName": "Monster Jam",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "www.monsterjam.com",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-03-21",
             "eventLocation": "Knoxville,TN"
         },
@@ -200,6 +212,10 @@
             "id": 4,
             "userId": 4,
             "eventName": "Jimmy Buffet concert",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "https://www.bridgestonearena.com/events/detail/jimmy-buffett-the-coral-reefer-band",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-04-27",
             "eventLocation": "Bridgestone arena Nashville,TN"
         },
@@ -207,6 +223,10 @@
             "id": 5,
             "userId": 1,
             "eventName": "Hozier concert",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "www.getrich.com",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-03-21",
             "eventLocation": " The Ryman Nashvile,TN"
         },
@@ -214,6 +234,10 @@
             "id": 6,
             "userId": 4,
             "eventName": "test",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "www.getrich.com",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-03-21",
             "eventLocation": " The Ryman Nashvile,TN"
         },
@@ -221,6 +245,10 @@
             "id": 7,
             "userId": 5,
             "eventName": "New Event Test",
+<<<<<<< HEAD:api/nutshell.json.example
+=======
+            "url": "www.bye.com",
+>>>>>>> master:api/nutshell.json.example.json
             "eventDate": "2019-04-08",
             "eventLocation": "NSS"
         }

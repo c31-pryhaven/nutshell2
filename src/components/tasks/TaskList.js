@@ -25,9 +25,13 @@ export default class TaskList extends Component {
                 <div className="card-body">
                   <h5 className="card-title">Task: {task.taskName}</h5>
                   <h5>Target Finish Date: {task.targetDate}</h5>
+                  {/* <button
+                    onClick={() => this.props.deleteTask(task.id)}
+                    className="btn btn-success">Completed
+                  </button> */}
                   <button
                     onClick={() => this.props.deleteTask(task.id)}
-                    className="btn btn-success">Delete
+                    className="btn btn-success">Completed
                   </button>
                   <button
                     type="button"
