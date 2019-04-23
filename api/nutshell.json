@@ -139,6 +139,7 @@
   ],
   "tasks": [
     {
+
       "id": 1,
       "userId": 2,
       "taskName": "Take out trash",
@@ -151,6 +152,7 @@
       "taskName": "mow the lawn",
       "targetDate": "4/1/2019",
       "isComplete": false
+
     },
     {
       "id": 3,
@@ -199,7 +201,6 @@
     {
       "id": 4,
       "userId": 4,
-      "eventName": "Jimmy Buffet concert",
       "eventDate": "2019-04-27",
       "eventLocation": "Bridgestone arena Nashville,TN"
     },

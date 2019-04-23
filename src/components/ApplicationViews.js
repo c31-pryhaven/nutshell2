@@ -1,13 +1,14 @@
-import { withRouter } from "react-router"
-import { Route } from "react-router-dom"
-import React, { Component } from "react"
+import { withRouter } from "react-router";
+import { Route } from "react-router-dom";
+import React, { Component } from "react";
 // import ArticleList from "./articles/ArticlesList"
-import ArticleManager from "./articles/ArticleManager"
+import ArticleManager from "./articles/ArticleManager";
 // import ArticleForm from "./articles/ArticlesForm"
 // import Article from "./articles/Articles"
-import TaskManager from "./tasks/TaskManager"
-// import TaskList from "./tasks/TaskList"
-// import TaskForm from "./tasks/TaskForm"
+import TaskManager from "./tasks/TaskManager";
+import TaskList from "./tasks/TaskList";
+import TaskForm from "./tasks/TaskForm";
+import TaskEditForm from "./tasks/TaskEditForm";
 // import Task from "./tasks/Task"
 import EventManager from "./events/EventManager"
 import EventList from "./events/EventsList"
@@ -46,19 +47,33 @@ class ApplicationViews extends Component {
   }
 
   addTask = task =>
-    TaskManager.post(task)
+    TaskManager.postTask(task)
       .then(() => TaskManager.getAll())
       .then(tasks =>
         this.setState({
           tasks: tasks
         })
+
       )
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
-      this.props.history.push("/tasks")
-      this.setState({ tasks: tasks })
+      this.props.history.push("/tasks");
+      this.setState({
+        tasks: tasks
+      })
     })
+  }
+
+
+  updateTask = editedTaskObject => {
+    return TaskManager.put(editedTaskObject)
+      .then(() => TaskManager.getAll())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        })
+      })
   }
 
 
@@ -82,35 +97,39 @@ class ApplicationViews extends Component {
   render() {
     return (
       <React.Fragment>
-
         <Route
-          exact path="/login" render={props => {
-            return null
+          exact
+          path="/login"
+          render={props => {
+            return null;
             // Remove null and return the component which will handle authentication
           }}
         />
-
         <Route
-          exact path="/" render={props => {
-            return null
+          exact
+          path="/"
+          render={props => {
+            return null;
             // Remove null and return the component which will show news articles
           }}
         />
-
         <Route
-          path="/friends" render={props => {
-            return null
+          path="/friends"
+          render={props => {
+            return null;
             // Remove null and return the component which will show list of friends
           }}
         />
-
         <Route
           path="/messages" render={props => {
             return <ChatList messages={this.state.messages} />
           }}
         />
-
         <Route
+          exact
+          path="/tasks"
+          render={props => {
+      <Route
           exact path="/events" render={props => {
             return <EventList {...props}
             deleteEvent={this.deleteEvent}
@@ -130,25 +149,43 @@ class ApplicationViews extends Component {
             return (
               <TaskList
                 {...props}
+                tasks={this.state.tasks}
                 deleteTask={this.deleteTask}
-                // tasks={this.state.tasksName}
               />
-            )
+            );
           }}
-        /> */}
-        {/* <Route
+        />{" "}
+        <Route
+          exact
           path="/tasks/new"
           render={props => {
-            return (
-              <TaskForm
-                {...props}
-                addTask={this.addTask}
-              />
-            )
+            return <TaskForm {...props} addTask={this.addTask} />;
           }}
-        /> */}
+        />{" "}
+        <Route
+          path="/tasks/:taskId(\d+)/edit"
+          render={props => {
+            return <TaskEditForm {...props} updateTask={this.updateTask} />;
+          }}
+        />{" "}
+        {/* <Route
+                  path="/tasks/:taskId(\d+)"
+                  render={props => {
+                    // Finds the task with the id of the route parameter
+                    let task = this.state.tasks.find(
+                      task => task.id === parseInt(props.match.params.taskId)
+                    );
+
+                    // If the task isn't found, this will be the default one
+                    if (!task) {
+                      task = { id: 404, name: "404", breed: "Task not found" }
+                    }
+
+                    return <TaskDetail task={task} deleteTask={this.deleteTask} />
+                  }}
+                /> */}{" "}
       </React.Fragment>
     );
   }
 }
-export default withRouter(ApplicationViews)
+export default withRouter(ApplicationViews);
