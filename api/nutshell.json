@@ -56,11 +56,9 @@
   "articles": [
     {
       "id": 1,
-      "userId": 2,
+      "title": "Removal of Cherry tree",
       "url": "https://www.wkrn.com/news/removal-of-cherry-trees-begins-in-downtown-nashville/1897109191",
-      "title": "Removal of Cherry trees",
-      "synopsis": "The NFL demands to have cherry trees taken down",
-      "timeStamp": ""
+      "synopsis": "The NFL demands to have cherry trees taken down"
     },
     {
       "id": 2,
@@ -139,7 +137,6 @@
   ],
   "tasks": [
     {
-
       "id": 1,
       "userId": 2,
       "taskName": "Take out trash",
@@ -152,7 +149,6 @@
       "taskName": "mow the lawn",
       "targetDate": "4/1/2019",
       "isComplete": false
-
     },
     {
       "id": 3,
@@ -180,6 +176,7 @@
     {
       "userId": 5,
       "eventName": "NFL draft",
+      "url": "",
       "eventDate": "2019-04-27",
       "eventLocation": "Nashville,TN",
       "id": 1
@@ -188,6 +185,7 @@
       "id": 2,
       "userId": 2,
       "eventName": "Demo Day",
+      "url": "www.nss.com",
       "eventDate": "2019-03-22",
       "eventLocation": "500 Interstate Blvd S"
     },
@@ -195,12 +193,15 @@
       "id": 3,
       "userId": 3,
       "eventName": "Monster Jam",
+      "url": "www.monsterjam.com",
       "eventDate": "2019-03-21",
       "eventLocation": "Knoxville,TN"
     },
     {
       "id": 4,
       "userId": 4,
+      "eventName": "Jimmy Buffet concert",
+      "url": "https://www.bridgestonearena.com/events/detail/jimmy-buffett-the-coral-reefer-band",
       "eventDate": "2019-04-27",
       "eventLocation": "Bridgestone arena Nashville,TN"
     },
@@ -208,6 +209,7 @@
       "id": 5,
       "userId": 1,
       "eventName": "Hozier concert",
+      "url": "www.getrich.com",
       "eventDate": "2019-03-21",
       "eventLocation": " The Ryman Nashvile,TN"
     },
@@ -215,6 +217,7 @@
       "id": 6,
       "userId": 4,
       "eventName": "test",
+      "url": "www.getrich.com",
       "eventDate": "2019-03-21",
       "eventLocation": " The Ryman Nashvile,TN"
     },
@@ -222,15 +225,9 @@
       "id": 7,
       "userId": 5,
       "eventName": "New Event Test",
+      "url": "www.bye.com",
       "eventDate": "2019-04-08",
       "eventLocation": "NSS"
-    },
-    {
-      "eventName": "herpablurpaderp",
-      "eventDate": "2019-04-23",
-      "eventLocation": "this will work",
-      "userId": "",
-      "id": 8
     }
   ]
 }
