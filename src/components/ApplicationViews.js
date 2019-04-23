@@ -1,14 +1,14 @@
-import { withRouter } from "react-router";
-import { Route } from "react-router-dom";
-import React, { Component } from "react";
+import { withRouter } from "react-router"
+import { Route } from "react-router-dom"
+import React, { Component } from "react"
 // import ArticleList from "./articles/ArticlesList"
-import ArticleManager from "./articles/ArticleManager";
+import ArticleManager from "./articles/ArticleManager"
 // import ArticleForm from "./articles/ArticlesForm"
 // import Article from "./articles/Articles"
-import TaskManager from "./tasks/TaskManager";
-import TaskList from "./tasks/TaskList";
-import TaskForm from "./tasks/TaskForm";
-import TaskEditForm from "./tasks/TaskEditForm";
+import TaskManager from "./tasks/TaskManager"
+import TaskList from "./tasks/TaskList"
+import TaskForm from "./tasks/TaskForm"
+import TaskEditForm from "./tasks/TaskEditForm"
 // import Task from "./tasks/Task"
 import EventManager from "./events/EventManager"
 import EventList from "./events/EventsList"
@@ -19,8 +19,8 @@ import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import FriendManager from "./friends/FriendManager"
-// import EventList from "./events/EventsList";
-// import EventForm from "./events/EventsForm";
+// import EventList from "./events/EventsList"
+// import EventForm from "./events/EventsForm"
 // import FriendLists from "./friends/FriendList"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
@@ -58,13 +58,12 @@ class ApplicationViews extends Component {
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
-      this.props.history.push("/tasks");
+      this.props.history.push("/tasks")
       this.setState({
         tasks: tasks
       })
     })
   }
-
 
   updateTask = editedTaskObject => {
     return TaskManager.put(editedTaskObject)
@@ -75,7 +74,6 @@ class ApplicationViews extends Component {
         })
       })
   }
-
 
   addEvent = event =>
     EventManager.postEvent(event)
@@ -93,7 +91,6 @@ class ApplicationViews extends Component {
     })
   }
 
-
   render() {
     return (
       <React.Fragment>
@@ -101,7 +98,7 @@ class ApplicationViews extends Component {
           exact
           path="/login"
           render={props => {
-            return null;
+            return null
             // Remove null and return the component which will handle authentication
           }}
         />
@@ -109,14 +106,14 @@ class ApplicationViews extends Component {
           exact
           path="/"
           render={props => {
-            return null;
+            return null
             // Remove null and return the component which will show news articles
           }}
         />
         <Route
           path="/friends"
           render={props => {
-            return null;
+            return null
             // Remove null and return the component which will show list of friends
           }}
         />
@@ -125,10 +122,6 @@ class ApplicationViews extends Component {
             return <ChatList messages={this.state.messages} />
           }}
         />
-        <Route
-          exact
-          path="/tasks"
-          render={props => {
       <Route
           exact path="/events" render={props => {
             return <EventList {...props}
@@ -144,7 +137,7 @@ class ApplicationViews extends Component {
                 addEvent={this.addEvent} />
               }}
             />
-        {/* <Route
+        <Route
           path="/tasks" render={props => {
             return (
               <TaskList
@@ -152,29 +145,29 @@ class ApplicationViews extends Component {
                 tasks={this.state.tasks}
                 deleteTask={this.deleteTask}
               />
-            );
+            )
           }}
-        />{" "}
+        />
         <Route
           exact
           path="/tasks/new"
           render={props => {
-            return <TaskForm {...props} addTask={this.addTask} />;
+            return <TaskForm {...props} addTask={this.addTask} />
           }}
-        />{" "}
+        />
         <Route
           path="/tasks/:taskId(\d+)/edit"
           render={props => {
-            return <TaskEditForm {...props} updateTask={this.updateTask} />;
+            return <TaskEditForm {...props} updateTask={this.updateTask} />
           }}
-        />{" "}
+        />
         {/* <Route
                   path="/tasks/:taskId(\d+)"
                   render={props => {
                     // Finds the task with the id of the route parameter
                     let task = this.state.tasks.find(
                       task => task.id === parseInt(props.match.params.taskId)
-                    );
+                    )
 
                     // If the task isn't found, this will be the default one
                     if (!task) {
@@ -185,7 +178,7 @@ class ApplicationViews extends Component {
                   }}
                 /> */}{" "}
       </React.Fragment>
-    );
+    )
   }
 }
-export default withRouter(ApplicationViews);
+export default withRouter(ApplicationViews)
