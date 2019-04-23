@@ -134,7 +134,11 @@ class ApplicationViews extends Component {
     return (
       <React.Fragment>
         <Route exact path="/"
+<<<<<<< HEAD
           component={Login} return null
+=======
+        component={Login} return null
+>>>>>>> master
         />
         <Route
           exact
@@ -178,9 +182,22 @@ class ApplicationViews extends Component {
           exact
           path="/events/new"
           render={props => {
-            return <EventForm {...props} addEvent={this.addEvent} />;
-          }}
-        />
+            return <EventForm
+                {...props}
+                addEvent={this.addEvent} />
+              }}
+            />
+        <Route path="/events/:eventId(\d+)" render={(props) => {
+          let evt = this.state.evt.find(evt =>
+            evt.id === parseInt(props.match.params.eventId)
+            )
+            if(!evt) {
+              evt = { id: 404, eventName : "404", eventDate : "Event not found"}
+            }
+
+            return <EventList evt ={evt}
+                deleteEvent ={this.deleteEvent}/>
+        }} />
         <Route
           exact
           path="/tasks"
