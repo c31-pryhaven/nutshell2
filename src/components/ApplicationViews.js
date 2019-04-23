@@ -14,8 +14,8 @@ import EventManager from "./events/EventManager";
 // import EventsList from "./events/EventsList"
 // import EventsForm from "./events/EventsForm"
 // import Event from "./events/Events"
-import ChatManager from "./chat/ChatManager";
-// import ChatList from "./chat/ChatList"
+import ChatManager from "./chat/ChatManager"
+import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import FriendManager from "./friends/FriendManager";
@@ -31,37 +31,37 @@ class ApplicationViews extends Component {
     friends: [],
     tasks: [],
     events: []
-  };
+  }
 
   componentDidMount() {
-    const newState = {};
+    const newState = {}
 
-    ChatManager.getAll().then(messages => (newState.messages = messages));
-    ArticleManager.getAll().then(articles => (newState.articles = articles));
-    FriendManager.getAll().then(friends => (newState.friends = friends));
-    TaskManager.getAll().then(tasks => (newState.tasks = tasks));
-    EventManager.getAll()
-      .then(events => (newState.events = events))
-      .then(() => this.setState(newState));
+    ChatManager.getAll().then(messages => (newState.messages = messages))
+    ArticleManager.getAll().then(articles => (newState.articles = articles))
+    FriendManager.getAll().then(friends => (newState.friends = friends))
+    TaskManager.getAll().then(tasks => (newState.tasks = tasks))
+    EventManager.getAll().then(events => (newState.events = events))
+      .then(() => this.setState(newState))
   }
 
   addTask = task =>
-    TaskManager.postTask(task)
+    TaskManager.post(task)
       .then(() => TaskManager.getAll())
       .then(tasks =>
         this.setState({
           tasks: tasks
         })
-      );
+
+      )
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
       this.props.history.push("/tasks");
       this.setState({
         tasks: tasks
-      });
-    });
-  };
+      })
+    })
+  }
 
   updateTask = editedTaskObject => {
     return TaskManager.put(editedTaskObject)
@@ -69,9 +69,9 @@ class ApplicationViews extends Component {
       .then(tasks => {
         this.setState({
           tasks: tasks
-        });
-      });
-  };
+        })
+      })
+  }
 
   render() {
     return (
@@ -100,10 +100,8 @@ class ApplicationViews extends Component {
           }}
         />
         <Route
-          path="/messages"
-          render={props => {
-            return null;
-            // Remove null and return the component which will show the messages
+          path="/messages" render={props => {
+            return <ChatList messages={this.state.messages} />
           }}
         />
         <Route
