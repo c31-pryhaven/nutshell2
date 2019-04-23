@@ -5,7 +5,7 @@ export default {
         return fetch(`${url}/tasks/${id}`).then(l => l.json())
     },
     getAll() {
-        return fetch(`${url}/tasks`).then(l => l.json())
+        return fetch(`${url}/tasks?isComplete=false`).then(l => l.json())
     },
     delete(id) {
         return fetch(`${url}/tasks/${id}`, {
@@ -36,6 +36,15 @@ export default {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(editedTask)
+        }).then(data => data.json());
+    },
+    patch(completedTask) {
+        return fetch(`${url}/tasks/${completedTask.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(completedTask)
         }).then(data => data.json());
     }
 }

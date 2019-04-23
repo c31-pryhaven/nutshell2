@@ -80,6 +80,16 @@ class ApplicationViews extends Component {
       });
   };
 
+  completeTask = completedTaskObject => {
+    return TaskManager.patch(completedTaskObject)
+      .then(() => TaskManager.getAll())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        });
+      });
+  };
+
   addEvent = event =>
     EventManager.postEvent(event)
       .then(() => EventManager.getAll())
@@ -188,6 +198,7 @@ class ApplicationViews extends Component {
             return (
               <TaskList
                 {...props}
+                completeTask={this.completeTask}
                 deleteTask={this.deleteTask}
                 tasks={this.state.tasks}
               />
