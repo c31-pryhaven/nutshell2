@@ -8,10 +8,10 @@ export default class EventList extends Component {
         return (
             <React.Fragment>
                 <div className="eventButton">
-                    <button type="button"
-                        className="btn btn-success"
+                    <button className="btn btn-success"
                         onClick={() => {
-                            this.props.history.push("/events/new")}
+                            this.props.history.push("/events/new")
+                        }
                         }>
                         New Event
                         </button>
@@ -24,6 +24,12 @@ export default class EventList extends Component {
                                     <h5 className="card-title">Event: {event.eventName}</h5>
                                     <h5 className="card-title">Date: {event.eventDate}</h5>
                                     <h5 className="card-title">Location: {event.eventLocation}</h5>
+                                </div>
+                                <div>
+                                    <button className="deleteButton"
+                                        onClick={() => {
+                                            this.props.deleteEvent(event.id)
+                                        }}>Delete</button>
                                 </div>
                             </div>)
                     }

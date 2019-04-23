@@ -137,6 +137,17 @@ class ApplicationViews extends Component {
                 addEvent={this.addEvent} />
               }}
             />
+        <Route path="/events/:eventId(\d+)" render={(props) => {
+          let evt = this.state.evt.find(evt =>
+            evt.id === parseInt(props.match.params.eventId)
+            )
+            if(!evt) {
+              evt = { id: 404, eventName : "404", eventDate : "Event not found"}
+            }
+
+            return <EventList evt ={evt}
+                deleteEvent ={this.deleteEvent}/>
+        }} />
         <Route
           path="/tasks" render={props => {
             return (

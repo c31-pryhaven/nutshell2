@@ -139,7 +139,6 @@
   ],
   "tasks": [
     {
-
       "id": 1,
       "userId": 2,
       "taskName": "Take out trash",
@@ -152,7 +151,6 @@
       "taskName": "mow the lawn",
       "targetDate": "4/1/2019",
       "isComplete": false
-
     },
     {
       "id": 3,
@@ -212,25 +210,11 @@
       "eventLocation": " The Ryman Nashvile,TN"
     },
     {
-      "id": 6,
-      "userId": 4,
-      "eventName": "test",
-      "eventDate": "2019-03-21",
-      "eventLocation": " The Ryman Nashvile,TN"
-    },
-    {
-      "id": 7,
-      "userId": 5,
-      "eventName": "New Event Test",
-      "eventDate": "2019-04-08",
-      "eventLocation": "NSS"
-    },
-    {
-      "eventName": "herpablurpaderp",
-      "eventDate": "2019-04-23",
-      "eventLocation": "this will work",
+      "eventName": "Bonnaroo",
+      "eventDate": "2019-06-13",
+      "eventLocation": "Manchester, TN",
       "userId": "",
-      "id": 8
+      "id": 6
     }
   ]
 }
