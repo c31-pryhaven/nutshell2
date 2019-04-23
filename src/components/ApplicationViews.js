@@ -1,32 +1,26 @@
-<<<<<<< HEAD
-import { Route } from "react-router-dom";
-import React, { Component } from "react";
-import ArticleList from "./articles/ArticlesList"
-import ArtricleManager from "./articles/ArticlesManager"
-import ArticleForm from "./articles/ArticlesForm"
-import ArticlesManager from "./articles/ArticlesManager";
-=======
 import { withRouter } from "react-router"
 import { Route } from "react-router-dom"
 import React, { Component } from "react"
 // import ArticleList from "./articles/ArticlesList"
 import ArticleManager from "./articles/ArticleManager"
 // import ArticleForm from "./articles/ArticlesForm"
->>>>>>> d2e9d0e0c5fd77f10e99c023e9331607c212ea63
 // import Article from "./articles/Articles"
 import TaskManager from "./tasks/TaskManager"
-// import TaskList from "./tasks/TaskList"
-// import TaskForm from "./tasks/TaskForm"
+import TaskList from "./tasks/TaskList"
+import TaskForm from "./tasks/TaskForm"
+import TaskEditForm from "./tasks/TaskEditForm"
 // import Task from "./tasks/Task"
 import EventManager from "./events/EventManager"
-// import EventsList from "./events/EventsList"
-// import EventsForm from "./events/EventsForm"
+import EventList from "./events/EventsList"
+import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
 import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import FriendManager from "./friends/FriendManager"
+// import EventList from "./events/EventsList"
+// import EventForm from "./events/EventsForm"
 // import FriendLists from "./friends/FriendList"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
@@ -53,97 +47,136 @@ class ApplicationViews extends Component {
   }
 
   addTask = task =>
-    TaskManager.post(task)
+    TaskManager.postTask(task)
       .then(() => TaskManager.getAll())
       .then(tasks =>
         this.setState({
           tasks: tasks
         })
+
       )
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
       this.props.history.push("/tasks")
-      this.setState({ tasks: tasks })
+      this.setState({
+        tasks: tasks
+      })
     })
   }
 
-  state = {
-    articles: [],
-    tasks: [],
-    events: [],
-    chat: [],
-    freinds: []
+  updateTask = editedTaskObject => {
+    return TaskManager.put(editedTaskObject)
+      .then(() => TaskManager.getAll())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        })
+      })
   }
 
+  addEvent = event =>
+    EventManager.postEvent(event)
+      .then(() => EventManager.getAll())
+      .then(events =>
+        this.setState({
+          events: events
+        })
+      )
 
-componentDidMount() {
-  const newState = {}
-
-    ArticlesManager.getAll()
-    .then(articles =>newState.articles = articles)
-}
+  deleteEvent = id => {
+    return EventManager.removeAndList(id).then(events => {
+      this.props.history.push("/events")
+      this.setState({ events: events })
+    })
+  }
 
   render() {
     return (
       <React.Fragment>
-
         <Route
-          exact path="/login" render={props => {
+          exact
+          path="/login"
+          render={props => {
             return null
             // Remove null and return the component which will handle authentication
           }}
         />
-
         <Route
-          exact path="/articles" render={props => {
-            return 
+          exact
+          path="/"
+          render={props => {
+            return null
+            // Remove null and return the component which will show news articles
           }}
         />
-
         <Route
-          path="/friends" render={props => {
+          path="/friends"
+          render={props => {
             return null
             // Remove null and return the component which will show list of friends
           }}
         />
-
         <Route
           path="/messages" render={props => {
             return <ChatList messages={this.state.messages} />
           }}
         />
+      <Route
+          exact path="/events" render={props => {
+            return <EventList {...props}
+            deleteEvent={this.deleteEvent}
+                events={this.state.events} />
 
-        <Route
-          path="/events" render={props => {
-            return null
-            // Remove null and return the component which will show the user's events
           }}
         />
-        {/* <Route
+        <Route exact path="/events/new"
+          render={props => {
+            return <EventForm
+                {...props}
+                addEvent={this.addEvent} />
+              }}
+            />
+        <Route
           path="/tasks" render={props => {
             return (
               <TaskList
                 {...props}
+                tasks={this.state.tasks}
                 deleteTask={this.deleteTask}
-                // tasks={this.state.tasksName}
               />
             )
           }}
-        /> */}
-        {/* <Route
+        />
+        <Route
+          exact
           path="/tasks/new"
           render={props => {
-            return (
-              <TaskForm
-                {...props}
-                addTask={this.addTask}
-              />
-            )
+            return <TaskForm {...props} addTask={this.addTask} />
           }}
-        /> */}
+        />
+        <Route
+          path="/tasks/:taskId(\d+)/edit"
+          render={props => {
+            return <TaskEditForm {...props} updateTask={this.updateTask} />
+          }}
+        />
+        {/* <Route
+                  path="/tasks/:taskId(\d+)"
+                  render={props => {
+                    // Finds the task with the id of the route parameter
+                    let task = this.state.tasks.find(
+                      task => task.id === parseInt(props.match.params.taskId)
+                    )
+                    // If the task isn't found, this will be the default one
+                    if (!task) {
+                      task = { id: 404, name: "404", breed: "Task not found" }
+                    }
+                    return <TaskDetail task={task} deleteTask={this.deleteTask} />
+                  }}
+                /> */}{" "}
       </React.Fragment>
-    );
+    )
   }
 }
 export default withRouter(ApplicationViews)
