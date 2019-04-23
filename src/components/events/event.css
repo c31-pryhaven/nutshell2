@@ -3,3 +3,7 @@
     justify-content: space-evenly;
     margin: 0 0 10px 0;
   }
+.deleteButton {
+    display: flex;
+    justify-content: left;
+}
