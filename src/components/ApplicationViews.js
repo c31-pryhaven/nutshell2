@@ -19,6 +19,7 @@ import ChatManager from "./chat/ChatManager"
 import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
+import UserManager from "./users/UserManager"
 import FriendManager from "./friends/FriendManager"
 // import EventList from "./events/EventsList"
 // import EventForm from "./events/EventsForm"
@@ -45,6 +46,7 @@ class ApplicationViews extends Component {
 
     ChatManager.getAll().then(messages => (newState.messages = messages))
     ArticleManager.getAll().then(articles => (newState.articles = articles))
+    UserManager.getAll().then(users => newState.users = users)
     FriendManager.getAll().then(friends => (newState.friends = friends))
     TaskManager.getAll().then(tasks => (newState.tasks = tasks))
     EventManager.getAll().then(events => (newState.events = events))
