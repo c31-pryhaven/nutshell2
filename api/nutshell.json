@@ -51,21 +51,30 @@
       "id": 5,
       "message": "Bye",
       "userId": 3
+<<<<<<< HEAD
     },
     {
       "message": "oh hai mark",
       "userId": 1,
       "id": 6
+=======
+>>>>>>> master
     }
   ],
   "articles": [
     {
       "id": 1,
+<<<<<<< HEAD
       "userId": 2,
       "url": "https://www.wkrn.com/news/removal-of-cherry-trees-begins-in-downtown-nashville/1897109191",
       "title": "Removal of Cherry trees",
       "synopsis": "The NFL demands to have cherry trees taken down",
       "timeStamp": ""
+=======
+      "title": "Removal of Cherry tree",
+      "url": "https://www.wkrn.com/news/removal-of-cherry-trees-begins-in-downtown-nashville/1897109191",
+      "synopsis": "The NFL demands to have cherry trees taken down"
+>>>>>>> master
     },
     {
       "id": 2,

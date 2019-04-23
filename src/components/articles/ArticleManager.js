@@ -12,22 +12,32 @@ export default {
         return fetch(`${url}/articles/${id}`, {
             method: "DELETE"
         })
-        .then(l => l.json())
+            .then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/articles/${id}`, {
-          method: "DELETE"
+            method: "DELETE"
         })
-          .then(e => e.json())
-          .then(this.getAll);
-      },
+            .then(e => e.json())
+            .then(this.getAll);
+    },
     postArticle(newArticle) {
         return fetch(`${url}/articles`, {
-            method:"POST",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(newArticle)
+        }).then(data => data.json())
+    },
+
+    putArticle(editiedArticle) {
+        return fetch(`${url}/articles/${editiedArticle.id}`, {
+            method:"PUT",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(editiedArticle)
         }).then(data => data.json())
     }
 }
