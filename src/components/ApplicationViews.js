@@ -138,7 +138,7 @@ class ApplicationViews extends Component {
               }}
             />
         <Route
-          path="/tasks" render={props => {
+         exact path="/tasks" render={props => {
             return (
               <TaskList
                 {...props}
@@ -149,8 +149,7 @@ class ApplicationViews extends Component {
           }}
         />
         <Route
-          exact
-          path="/tasks/new"
+          exact path="/tasks/new"
           render={props => {
             return <TaskForm {...props} addTask={this.addTask} />
           }}
@@ -161,22 +160,6 @@ class ApplicationViews extends Component {
             return <TaskEditForm {...props} updateTask={this.updateTask} />
           }}
         />
-        {/* <Route
-                  path="/tasks/:taskId(\d+)"
-                  render={props => {
-                    // Finds the task with the id of the route parameter
-                    let task = this.state.tasks.find(
-                      task => task.id === parseInt(props.match.params.taskId)
-                    )
-
-                    // If the task isn't found, this will be the default one
-                    if (!task) {
-                      task = { id: 404, name: "404", breed: "Task not found" }
-                    }
-
-                    return <TaskDetail task={task} deleteTask={this.deleteTask} />
-                  }}
-                /> */}{" "}
       </React.Fragment>
     )
   }
