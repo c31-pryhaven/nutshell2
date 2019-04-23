@@ -1,8 +1,15 @@
 import React, { Component } from "react"
-// import { Link } from "react-router-dom"
 import "./task.css"
 
 export default class TaskList extends Component {
+  handleCompleteTask = (id) => {
+
+    const object = {
+      isComplete: true,
+      id: id
+    }
+    this.props.completeTask(object)
+  }
   render() {
     return (
       <React.Fragment>
@@ -25,14 +32,13 @@ export default class TaskList extends Component {
                 <div className="card-body">
                   <h5 className="card-title">Task: {task.taskName}</h5>
                   <h5>Target Finish Date: {task.targetDate}</h5>
-                  {/* <button
-                    onClick={() => this.props.deleteTask(task.id)}
-                    className="btn btn-success">Completed
-                  </button> */}
-                  <button
-                    onClick={() => this.props.deleteTask(task.id)}
-                    className="btn btn-success">Completed
-                  </button>
+                  <label>
+                    Click CheckBox if Complete: 
+                  <input type="checkbox"
+                    onClick={() => this.handleCompleteTask(task.id)}
+                    className="btn btn-success"
+                  />
+                  </label>
                   <button
                     type="button"
                     className="btn btn-success"
@@ -46,7 +52,7 @@ export default class TaskList extends Component {
                   </button>
                 </div>
               </div>
-            ))}
+            ))}          
           </section>
         </section>
       </React.Fragment>

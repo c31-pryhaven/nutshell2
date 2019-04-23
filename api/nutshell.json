@@ -148,7 +148,7 @@
       "userId": 2,
       "taskName": "Take out trash",
       "targetDate": "4/5/2019",
-      "isComplete": false
+      "isComplete": true
     },
     {
       "id": 2,
@@ -177,11 +177,6 @@
       "taskName": "file taxes",
       "targetDate": "4/15/2019",
       "isComplete": false
-    },
-    {
-      "id": 6,
-      "taskName": "test 2",
-      "targetDate": "2019-04-24"
     }
   ],
   "events": [
