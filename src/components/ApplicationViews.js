@@ -8,6 +8,7 @@ import ArticleManager from "./articles/ArticleManager";
 import TaskManager from "./tasks/TaskManager";
 import TaskList from "./tasks/TaskList";
 import TaskForm from "./tasks/TaskForm";
+import TaskEditForm from "./tasks/TaskEditForm";
 // import Task from "./tasks/Task"
 import EventManager from "./events/EventManager";
 // import EventsList from "./events/EventsList"
@@ -33,14 +34,15 @@ class ApplicationViews extends Component {
   };
 
   componentDidMount() {
-    const newState = {}
+    const newState = {};
 
-    ChatManager.getAll().then(messages => (newState.messages = messages))
-    ArticleManager.getAll().then(articles => (newState.articles = articles))
-    FriendManager.getAll().then(friends => (newState.friends = friends))
-    TaskManager.getAll().then(tasks => (newState.tasks = tasks))
-    EventManager.getAll().then(events => (newState.events = events))
-      .then(() => this.setState(newState))
+    ChatManager.getAll().then(messages => (newState.messages = messages));
+    ArticleManager.getAll().then(articles => (newState.articles = articles));
+    FriendManager.getAll().then(friends => (newState.friends = friends));
+    TaskManager.getAll().then(tasks => (newState.tasks = tasks));
+    EventManager.getAll()
+      .then(events => (newState.events = events))
+      .then(() => this.setState(newState));
   }
 
   addTask = task =>
@@ -50,14 +52,26 @@ class ApplicationViews extends Component {
         this.setState({
           tasks: tasks
         })
-      )
+      );
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
-      this.props.history.push("/tasks")
-      this.setState({ tasks: tasks })
-    })
-  }
+      this.props.history.push("/tasks");
+      this.setState({
+        tasks: tasks
+      });
+    });
+  };
+
+  updateTask = editedTaskObject => {
+    return TaskManager.put(editedTaskObject)
+      .then(() => TaskManager.getAll())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        });
+      });
+  };
 
   render() {
     return (
@@ -70,7 +84,6 @@ class ApplicationViews extends Component {
             // Remove null and return the component which will handle authentication
           }}
         />
-
         <Route
           exact
           path="/"
@@ -79,7 +92,6 @@ class ApplicationViews extends Component {
             // Remove null and return the component which will show news articles
           }}
         />
-
         <Route
           path="/friends"
           render={props => {
@@ -87,7 +99,6 @@ class ApplicationViews extends Component {
             // Remove null and return the component which will show list of friends
           }}
         />
-
         <Route
           path="/messages"
           render={props => {
@@ -95,14 +106,13 @@ class ApplicationViews extends Component {
             // Remove null and return the component which will show the messages
           }}
         />
-
         <Route
           path="/events"
           render={props => {
             return null;
             // Remove null and return the component which will show the user's events
           }}
-        />
+        />{" "}
         <Route
           exact
           path="/tasks"
@@ -115,30 +125,36 @@ class ApplicationViews extends Component {
               />
             );
           }}
-        />
+        />{" "}
         <Route
           exact
           path="/tasks/new"
           render={props => {
             return <TaskForm {...props} addTask={this.addTask} />;
           }}
-        />
-        {/* <Route
-          path="/tasks/:taskId(\d+)"
+        />{" "}
+        <Route
+          path="/tasks/:taskId(\d+)/edit"
           render={props => {
-            // Finds the task with the id of the route parameter
-            let task = this.state.tasks.find(
-              task => task.id === parseInt(props.match.params.taskId)
-            );
-
-            // If the task isn't found, this will be the default one
-            if (!task) {
-              task = { id: 404, name: "404", breed: "Task not found" }
-            }
-
-            return <TaskDetail task={task} deleteTask={this.deleteTask} />
+            return <TaskEditForm {...props} updateTask={this.updateTask} />;
           }}
-        /> */}
+        />{" "}
+        {/* <Route
+                  path="/tasks/:taskId(\d+)"
+                  render={props => {
+                    // Finds the task with the id of the route parameter
+                    let task = this.state.tasks.find(
+                      task => task.id === parseInt(props.match.params.taskId)
+                    );
+
+                    // If the task isn't found, this will be the default one
+                    if (!task) {
+                      task = { id: 404, name: "404", breed: "Task not found" }
+                    }
+
+                    return <TaskDetail task={task} deleteTask={this.deleteTask} />
+                  }}
+                /> */}{" "}
       </React.Fragment>
     );
   }

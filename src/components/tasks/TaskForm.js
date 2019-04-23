@@ -10,18 +10,18 @@ export default class TaskForm extends Component {
 
   // Update state whenever an input field is edited
   handleFieldChange = evt => {
-    const stateToChange = {};
-    stateToChange[evt.target.id] = evt.target.value;
-    this.setState(stateToChange);
+    const stateToChange = {}
+    stateToChange[evt.target.id] = evt.target.value
+    this.setState(stateToChange)
   }
   /*
-        Local method for validation, creating animal object, and
+        Local method for validation, creating task object, and
         invoking the function reference passed from parent component
      */
   constructNewTask = evt => {
-    evt.preventDefault();
+    evt.preventDefault()
     if (this.state.task === "") {
-      window.alert("Please select a caretaker");
+      window.alert("Please select a caretaker")
     } else {
       const task = {
         taskName: this.state.taskName,
@@ -30,7 +30,7 @@ export default class TaskForm extends Component {
       // Create the task and redirect user to task list
       this.props
         .addTask(task)
-        .then(() => this.props.history.push("/tasks"));
+        .then(() => this.props.history.push("/tasks"))
     }
   }
 
@@ -51,7 +51,7 @@ export default class TaskForm extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="targetDate">Task Targe Finish Date</label>
+              <label htmlFor="targetDate">Task Target Finish Date</label>
               <input
                 type="date"
                 required

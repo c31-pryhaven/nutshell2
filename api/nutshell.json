@@ -140,10 +140,8 @@
   "tasks": [
     {
       "id": 2,
-      "userId": 1,
-      "taskName": "mow the lawn",
-      "targetDate": "4/1/2019",
-      "isComplete": false
+      "taskName": "mow the front lawn",
+      "targetDate": "2019-04-24"
     },
     {
       "id": 3,
@@ -173,8 +171,8 @@
       "id": 6
     },
     {
-      "taskName": "Fertilize Lawn",
-      "targetDate": "2019-04-27",
+      "taskName": "fertilize lawn",
+      "targetDate": "2019-04-22",
       "id": 7
     }
   ],
