@@ -5,7 +5,8 @@ export default class TaskForm extends Component {
   // Set initial state for tasks
   state = {
     taskName: "",
-    targetDate: ""
+    targetDate: "",
+    isComplete: false
   }
 
   // Update tasks state whenever an input field is edited
