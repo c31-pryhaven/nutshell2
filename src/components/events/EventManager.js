@@ -11,18 +11,18 @@ export default {
         return fetch(`${url}/events/${id}`, {
             method: "DELETE"
         })
-        .then(l => l.json())
+            .then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/events/${id}`, {
-          method: "DELETE"
+            method: "DELETE"
         })
-          .then(e => e.json())
-          .then(this.getAll);
-      },
+            .then(e => e.json())
+            .then(this.getAll);
+    },
     postEvent(newEvent) {
         return fetch(`${url}/events`, {
-            method:"POST",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
