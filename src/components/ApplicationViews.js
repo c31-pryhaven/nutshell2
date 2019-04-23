@@ -158,7 +158,7 @@ class ApplicationViews extends Component {
         />
         <Route
           path="/messages" render={props => {
-            return <ChatList messages={this.state.messages} addMessage={this.addMessage} users={this.state.users}{...props} />
+            return <ChatList messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} />
           }}
         />
         <Route
