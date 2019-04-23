@@ -3,6 +3,7 @@ import ChatSendMessage from "./ChatSendMessage";
 
 export default class ChatList extends Component {
     render() {
+        console.log(this.props.users);
         return (
             <React.Fragment>
                 <section className="messages">
@@ -12,7 +13,8 @@ export default class ChatList extends Component {
                                 <div key={message.id} className="card">
                                     <div className="card-body">
                                         <h5 className="card-title">
-                                            {message.userId}
+                                            {this.props.users.find(user => user.id === message.userId
+                                            ).userName}
                                         </h5>
                                         <p className="card-text">{message.message}</p>
                                     </div>
