@@ -10,15 +10,17 @@ import TaskList from "./tasks/TaskList";
 import TaskForm from "./tasks/TaskForm";
 import TaskEditForm from "./tasks/TaskEditForm";
 // import Task from "./tasks/Task"
-import EventManager from "./events/EventManager";
-// import EventsList from "./events/EventsList"
-// import EventsForm from "./events/EventsForm"
+import EventManager from "./events/EventManager"
+import EventList from "./events/EventsList"
+import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
 import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
-import FriendManager from "./friends/FriendManager";
+import FriendManager from "./friends/FriendManager"
+// import EventList from "./events/EventsList";
+// import EventForm from "./events/EventsForm";
 // import FriendLists from "./friends/FriendList"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
@@ -45,7 +47,7 @@ class ApplicationViews extends Component {
   }
 
   addTask = task =>
-    TaskManager.post(task)
+    TaskManager.postTask(task)
       .then(() => TaskManager.getAll())
       .then(tasks =>
         this.setState({
@@ -63,6 +65,7 @@ class ApplicationViews extends Component {
     })
   }
 
+
   updateTask = editedTaskObject => {
     return TaskManager.put(editedTaskObject)
       .then(() => TaskManager.getAll())
@@ -72,6 +75,24 @@ class ApplicationViews extends Component {
         })
       })
   }
+
+
+  addEvent = event =>
+    EventManager.postEvent(event)
+      .then(() => EventManager.getAll())
+      .then(events =>
+        this.setState({
+          events: events
+        })
+      )
+
+  deleteEvent = id => {
+    return EventManager.removeAndList(id).then(events => {
+      this.props.history.push("/events")
+      this.setState({ events: events })
+    })
+  }
+
 
   render() {
     return (
@@ -105,16 +126,26 @@ class ApplicationViews extends Component {
           }}
         />
         <Route
-          path="/events"
-          render={props => {
-            return null;
-            // Remove null and return the component which will show the user's events
-          }}
-        />{" "}
-        <Route
           exact
           path="/tasks"
           render={props => {
+      <Route
+          exact path="/events" render={props => {
+            return <EventList {...props}
+            deleteEvent={this.deleteEvent}
+                events={this.state.events} />
+
+          }}
+        />
+        <Route exact path="/events/new"
+          render={props => {
+            return <EventForm
+                {...props}
+                addEvent={this.addEvent} />
+              }}
+            />
+        {/* <Route
+          path="/tasks" render={props => {
             return (
               <TaskList
                 {...props}
