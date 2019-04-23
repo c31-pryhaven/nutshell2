@@ -4,6 +4,7 @@ import React, { Component } from "react"
 import ArticleList from "./articles/ArticlesList"
 import ArticleManager from "./articles/ArticleManager"
 import ArticleForm from "./articles/ArticlesForm"
+import ArticleEditForm from "./articles/ArticleEditForm"
 // import Article from "./articles/Articles"
 import TaskManager from "./tasks/TaskManager"
 import TaskList from "./tasks/TaskList"
@@ -78,6 +79,16 @@ class ApplicationViews extends Component {
         })
       }
 
+      updateArticle = (editiedArticle) => {
+        return ArticleManager.putArticle(editiedArticle)
+        .then(() => ArticleManager.getAll())
+        .then(article => {
+          this.setState({
+            articles: article
+          })
+        })
+      }
+
 
 
   render() {
@@ -91,7 +102,8 @@ class ApplicationViews extends Component {
         <Route
           exact path="/articles" render={props => {
             return (
-              <ArticleList {...props} articles={this.state.articles} />
+              <ArticleList {...props} articles={this.state.articles}
+            deleteArticle={this.deleteArticle}/>
             )
           }}
         />
@@ -142,6 +154,9 @@ class ApplicationViews extends Component {
                     return <ArticleForm {...props}
                         addArticle={this.addArticle}/>
                 }}/>
+        <Route exact path="/articles/:articleId(\d+)/edit" render={(props) => {
+          return <ArticleEditForm {...props} updateArticle={this.updateArticle} />
+        }}/>
       </React.Fragment>
     );
   }

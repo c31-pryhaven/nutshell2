@@ -17,11 +17,11 @@ export default class ArticleForm extends Component {
     newArticle = event => {
         event.preventDefault();
         const article = {
-            title: this.state.title,
-            url: this.state.url,
-            synopsis: this.state.synopsis
+            title: this.state.articleTitle,
+            url: this.state.articleUrl,
+            synopsis: this.state.articleSynopsis
         };
-        this.props.addArticle(article).then(() => this.props.history("/articles"))
+        this.props.addArticle(article).then(() => this.props.history.push("/articles"))
     }
 
 
@@ -30,16 +30,16 @@ export default class ArticleForm extends Component {
             <React.Fragment>
                 <form className="card">
                 <div className="form-group">
-                <label>Article Ttile</label>
+                <label htmlFor="articleTitle">Article Ttile:</label>
                 <input
                             type="text"
                             required
                             className="form-control"
                             onChange={this.handleFieldChange}
-                            id="articleTtile"
+                            id="articleTitle"
                             placeholder="article title"
                         />
-                <label>Article URl</label>
+                <label htmlFor="articleUrl">Article URL:</label>
                 <input
                             type="text"
                             required
@@ -48,7 +48,7 @@ export default class ArticleForm extends Component {
                             id="articleUrl"
                             placeholder="article url"
                         />
-                <label>Article Synopsis</label>
+                <label htmlFor="articleSynopsis">Article Synopsis:</label>
                 <input
                             type="text"
                             required
@@ -60,7 +60,9 @@ export default class ArticleForm extends Component {
                         <button
                             type="submit"
                             onClick={this.newArticle}
-                            className="btn btn-primary"/>
+                            className="btn btn-primary"
+                            >
+                            Submit</button>
                     </div>
                 </form>
             </React.Fragment>

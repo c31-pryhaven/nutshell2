@@ -34,6 +34,13 @@ export default class ArticleList extends Component {
                                     className="btn btn-success">
                                     Delete
                                     </button> }
+                                    <button
+                                    onClick={() => {
+                                        this.props.history.push(`/articles/${article.id}/edit`)
+                                    }}
+                                    className="btn btn-success">
+                                    Edit
+                                    </button>
                             </div>
                         </div>
                     ))}
