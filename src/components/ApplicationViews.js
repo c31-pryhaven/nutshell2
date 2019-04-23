@@ -9,16 +9,19 @@ import ArticleEditForm from "./articles/ArticleEditForm"
 import TaskManager from "./tasks/TaskManager"
 import TaskList from "./tasks/TaskList"
 // import TaskForm from "./tasks/TaskForm"
+// import TaskEditForm from "./tasks/TaskEditForm"
 // import Task from "./tasks/Task"
 import EventManager from "./events/EventManager"
-// import EventsList from "./events/EventsList"
-// import EventsForm from "./events/EventsForm"
+import EventList from "./events/EventsList"
+// import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
-// import ChatList from "./chat/ChatList"
+import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import FriendManager from "./friends/FriendManager"
+// import EventList from "./events/EventsList"
+// import EventForm from "./events/EventsForm"
 // import FriendLists from "./friends/FriendList"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
@@ -49,18 +52,47 @@ class ApplicationViews extends Component {
   }
 
   addTask = task =>
-    TaskManager.post(task)
+    TaskManager.postTask(task)
       .then(() => TaskManager.getAll())
       .then(tasks =>
         this.setState({
           tasks: tasks
         })
+
       )
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
       this.props.history.push("/tasks")
-      this.setState({ tasks: tasks })
+      this.setState({
+        tasks: tasks
+      })
+    })
+  }
+
+  updateTask = editedTaskObject => {
+    return TaskManager.put(editedTaskObject)
+      .then(() => TaskManager.getAll())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
+  addEvent = event =>
+    EventManager.postEvent(event)
+      .then(() => EventManager.getAll())
+      .then(events =>
+        this.setState({
+          events: events
+        })
+      )
+
+  deleteEvent = id => {
+    return EventManager.removeAndList(id).then(events => {
+      this.props.history.push("/events")
+      this.setState({ events: events })
     })
   }
   addArticle = article =>
@@ -89,8 +121,6 @@ class ApplicationViews extends Component {
         })
       }
 
-
-
   render() {
     return (
       <React.Fragment>
@@ -107,25 +137,24 @@ class ApplicationViews extends Component {
             )
           }}
         />
-
         <Route
-          path="/friends" render={props => {
+          path="/friends"
+          render={props => {
             return null
             // Remove null and return the component which will show list of friends
           }}
         />
-
         <Route
           path="/messages" render={props => {
-            return null
-            // Remove null and return the component which will show the messages
+            return <ChatList messages={this.state.messages} />
           }}
         />
+      <Route
+          exact path="/events" render={props => {
+            return <EventList {...props}
+            deleteEvent={this.deleteEvent}
+                events={this.state.events} />
 
-        <Route
-          path="/events" render={props => {
-            return null
-            // Remove null and return the component which will show the user's events
           }}
         />
         {<Route
@@ -158,7 +187,7 @@ class ApplicationViews extends Component {
           return <ArticleEditForm {...props} updateArticle={this.updateArticle} />
         }}/>
       </React.Fragment>
-    );
+    )
   }
 }
 export default withRouter(ApplicationViews)

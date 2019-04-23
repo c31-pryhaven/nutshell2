@@ -9,14 +9,14 @@ export default {
     },
     delete(id) {
         return fetch(`${url}/messages/${id}`, {
-            method: "DELETE"
-        })
+                method: "DELETE"
+            })
             .then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/messages/${id}`, {
-            method: "DELETE"
-        })
+                method: "DELETE"
+            })
             .then(e => e.json())
             .then(this.getAll);
     },
