@@ -59,6 +59,15 @@ class ApplicationViews extends Component {
     })
   }
 
+  addMessage = message =>
+  ChatManager.postMessage(message)
+    .then(() => ChatManager.getAll())
+    .then(message =>
+      this.setState({
+        messages: message
+      })
+    )
+
   render() {
     return (
       <React.Fragment>
@@ -86,7 +95,7 @@ class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return <ChatList messages={this.state.messages} />
+            return <ChatList messages={this.state.messages}  addMessage={this.addMessage} {...props}/>
           }}
         />
 
