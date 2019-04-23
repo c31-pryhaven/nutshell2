@@ -14,7 +14,7 @@ import EventList from "./events/EventsList"
 import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
-// import ChatList from "./chat/ChatList"
+import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import FriendManager from "./friends/FriendManager"
@@ -61,6 +61,7 @@ class ApplicationViews extends Component {
     })
   }
 
+
   addEvent = event =>
     EventManager.postEvent(event)
       .then(() => EventManager.getAll())
@@ -76,6 +77,7 @@ class ApplicationViews extends Component {
       this.setState({ events: events })
     })
   }
+
 
   render() {
     return (
@@ -104,8 +106,7 @@ class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return null
-            // Remove null and return the component which will show the messages
+            return <ChatList messages={this.state.messages} />
           }}
         />
 
