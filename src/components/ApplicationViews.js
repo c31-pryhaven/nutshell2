@@ -18,6 +18,7 @@ import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
 import ChatList from "./chat/ChatList"
+import ChatEditForm from "./chat/ChatEditForm"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import UserManager from "./users/UserManager"
@@ -32,7 +33,7 @@ import DashBoardList from "./dashboard/DashBoardList"
 class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
   currentUserId = sessionStorage.getItem("userId")
-  
+
   state = {
     users: [],
     messages: [],
@@ -42,31 +43,31 @@ class ApplicationViews extends Component {
     events: [],
     userId: ""
   }
-  
+
   componentDidMount() {
     // let currentUserId = sessionStorage.getItem("userId")
-    
+
     const newState = {}
-    
+
     ChatManager.getAll().then(messages => (newState.messages = messages))
     ArticleManager.getAll().then(articles => (newState.articles = articles))
     UserManager.getAll().then(users => newState.users = users)
     FriendManager.getAll().then(friends => (newState.friends = friends))
     TaskManager.getAll().then(tasks => (newState.tasks = tasks))
     EventManager.getAll().then(events => (newState.events = events))
-    .then(() => this.setState(newState))
+      .then(() => this.setState(newState))
   }
   onLogin = () => {
     this.setState({
-    userId: sessionStorage.getItem("userId")
+      userId: sessionStorage.getItem("userId")
     })
   }
-  
+
   addTask = task =>
-  TaskManager.postTask(task)
-  .then(() => TaskManager.getAll())
-  .then(tasks =>
-    this.setState({
+    TaskManager.postTask(task)
+      .then(() => TaskManager.getAll())
+      .then(tasks =>
+        this.setState({
           tasks: tasks
         })
       )
@@ -118,12 +119,12 @@ class ApplicationViews extends Component {
 
   updateEvent = editedEventObject => {
     return EventManager.putEvent(editedEventObject)
-        .then(() => EventManager.getAll())
-        .then(events => {
-          this.setState({
-            events : events
-          })
+      .then(() => EventManager.getAll())
+      .then(events => {
+        this.setState({
+          events: events
         })
+      })
   }
   addArticle = article =>
     ArticleManager.postArticle(article)
@@ -160,15 +161,25 @@ class ApplicationViews extends Component {
         })
       )
 
-      addUser = user =>
-      UserManager.postUser(user)
+      updateMessage = editiedMessage => {
+        return ChatManager.putMessage(editiedMessage)
+          .then(() => ChatManager.getAll())
+          .then(message => {
+            this.setState({
+              messages: message
+            })
+          })
+      }
+
+  addUser = user =>
+    UserManager.postUser(user)
 
 
   render() {
     return (
       <React.Fragment>
         <Route exact path="/" render={(props) => {
-          return <Login onLogin={this.onLogin} {...props}/>
+          return <Login onLogin={this.onLogin} {...props} />
         }}
         />
         <Route
@@ -198,6 +209,15 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
+          path="/messages/:messageId(\d+)/edit"
+          render={props => {
+            return (
+              <ChatEditForm {...props} updateMessage={this.updateMessage} />
+            )
+          }}
+        />
+        <Route
+          exact
           path="/events"
           render={props => {
             return (
@@ -216,13 +236,13 @@ class ApplicationViews extends Component {
             return <EventForm {...props} addEvent={this.addEvent} />
           }}
         />
-        <Route exact path ="/events/:eventId(\d+)/edit"
+        <Route exact path="/events/:eventId(\d+)/edit"
           render={props => {
             return (
               <EditEventForm {...props} updateEvent={this.updateEvent} />
             )
           }}
-          />
+        />
         <Route
           exact
           path="/tasks"
@@ -267,18 +287,18 @@ class ApplicationViews extends Component {
             )
           }}
         />
-        <Route 
-        exact path="/login/new" render={props => {
-          return (
-            <LoginForm {...props} addUser={this.addUser}/>
-          )
-        }}
+        <Route
+          exact path="/login/new" render={props => {
+            return (
+              <LoginForm {...props} addUser={this.addUser} />
+            )
+          }}
         />
         <Route exact path="/dashboard" render={props => {
           return (
             <DashBoardList {...props}
-            articles={this.state.articles}
-            tasks={this.state.tasks}/>
+              articles={this.state.articles}
+              tasks={this.state.tasks} />
           )
         }}
         />
