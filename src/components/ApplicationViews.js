@@ -26,36 +26,47 @@ import FriendManager from "./friends/FriendManager"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
 import Login from "./login/Login"
+import LoginForm from "./login/LoginForm";
+import DashBoardList from "./dashboard/DashBoardList"
 
 class ApplicationViews extends Component {
-  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
-
+  isAuthenticated = () => sessionStorage.getItem("userId") !== null
+  currentUserId = sessionStorage.getItem("userId")
+  
   state = {
     users: [],
     messages: [],
     articles: [],
     friends: [],
     tasks: [],
-    events: []
+    events: [],
+    userId: ""
   }
-
+  
   componentDidMount() {
+    // let currentUserId = sessionStorage.getItem("userId")
+    
     const newState = {}
-
+    
     ChatManager.getAll().then(messages => (newState.messages = messages))
     ArticleManager.getAll().then(articles => (newState.articles = articles))
     UserManager.getAll().then(users => newState.users = users)
     FriendManager.getAll().then(friends => (newState.friends = friends))
     TaskManager.getAll().then(tasks => (newState.tasks = tasks))
     EventManager.getAll().then(events => (newState.events = events))
-      .then(() => this.setState(newState))
+    .then(() => this.setState(newState))
   }
-
+  onLogin = () => {
+    this.setState({
+    userId: sessionStorage.getItem("userId")
+    })
+  }
+  
   addTask = task =>
-    TaskManager.postTask(task)
-      .then(() => TaskManager.getAll())
-      .then(tasks =>
-        this.setState({
+  TaskManager.postTask(task)
+  .then(() => TaskManager.getAll())
+  .then(tasks =>
+    this.setState({
           tasks: tasks
         })
       )
@@ -149,11 +160,16 @@ class ApplicationViews extends Component {
         })
       )
 
+      addUser = user =>
+      UserManager.postUser(user)
+
+
   render() {
     return (
       <React.Fragment>
-        <Route exact path="/"
-          component={Login} return null
+        <Route exact path="/" render={(props) => {
+          return <Login onLogin={this.onLogin} {...props}/>
+        }}
         />
         <Route
           exact
@@ -250,6 +266,21 @@ class ApplicationViews extends Component {
               <ArticleEditForm {...props} updateArticle={this.updateArticle} />
             )
           }}
+        />
+        <Route 
+        exact path="/login/new" render={props => {
+          return (
+            <LoginForm {...props} addUser={this.addUser}/>
+          )
+        }}
+        />
+        <Route exact path="/dashboard" render={props => {
+          return (
+            <DashBoardList {...props}
+            articles={this.state.articles}
+            tasks={this.state.tasks}/>
+          )
+        }}
         />
       </React.Fragment>
     )
