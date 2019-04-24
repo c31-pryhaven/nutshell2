@@ -4,7 +4,7 @@ export default class chatSendMessage extends Component {
     //initial message state.
     state = {
         message: "",
-        userId: "1",
+        userId: "2",
     };
 
     handleMessageInput = (event) => {

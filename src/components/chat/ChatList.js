@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import ChatSendMessage from "./ChatSendMessage";
+import "./ChatList.css;"
 
 export default class ChatList extends Component {
     render() {
@@ -7,7 +8,7 @@ export default class ChatList extends Component {
         return (
             <React.Fragment>
                 <section className="messages">
-                    <div className="card-deck">
+                    <div className="list-group message__box">
                         {
                             this.props.messages.map(message =>
                                 <div key={message.id} className="card">
