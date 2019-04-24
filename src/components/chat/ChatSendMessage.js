@@ -24,6 +24,7 @@ export default class chatSendMessage extends Component {
             };
 
             this.props.addMessage(message)
+            this.messageInput.value = "";
         }
     };
 
@@ -38,6 +39,7 @@ export default class chatSendMessage extends Component {
                         onChange={this.handleMessageInput}
                         id="message"
                         placeholder="new message"
+                        ref={(el) => { this.messageInput = el; }}
                     />
                 </div>
                 <div className="sendButton">
