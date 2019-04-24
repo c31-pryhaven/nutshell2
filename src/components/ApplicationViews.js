@@ -14,6 +14,7 @@ import TaskEditForm from "./tasks/TaskEditForm"
 import EventManager from "./events/EventManager";
 import EventList from "./events/EventsList";
 import EventForm from "./events/EventsForm";
+import EditEventForm from "./events/EditEventForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager";
 import ChatList from "./chat/ChatList";
@@ -105,6 +106,17 @@ class ApplicationViews extends Component {
       this.setState({ events: events });
     });
   };
+
+  updateEvent = editedEventObject => {
+    return EventManager.putEvent(editedEventObject)
+        .then(() => EventManager.getAll())
+        .then(events => {
+          this.setState({
+            events : events
+          })
+        })
+  }
+
   addArticle = article =>
     ArticleManager.postArticle(article)
       .then(() => ArticleManager.getAll())
@@ -191,6 +203,13 @@ class ApplicationViews extends Component {
             return <EventForm {...props} addEvent={this.addEvent} />;
           }}
         />
+        <Route exact path ="/events/:eventId(\d+)/edit"
+          render={props => {
+            return (
+              <EditEventForm {...props} updateEvent={this.updateEvent} />
+            )
+          }}
+          />
         <Route
           exact
           path="/tasks"
