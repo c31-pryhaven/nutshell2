@@ -1,16 +1,24 @@
 import React, { Component } from "react"
 import ChatSendMessage from "./ChatSendMessage";
+import './ChatList.css'
 
 export default class ChatList extends Component {
+
+    scrollToBottom = () => {
+        if (this.messageBox) {
+            this.messageBox.scrollTop = this.messageBox.scrollHeight;
+            console.log(this.messageBox.scrollTop, this.messageBox.scrollHeight)
+        }
+    }
+
     render() {
-        console.log(this.props.users);
         return (
             <React.Fragment>
-                <section className="messages">
-                    <div className="card-deck">
+                <article className="messages">
+                    <section className="list-group message__box" ref={(el) => { this.messageBox = el; }}>
                         {
                             this.props.messages.map(message =>
-                                <div key={message.id} className="card">
+                                <div key={message.id} className="card list-group-item">
                                     <div className="card-body">
                                         <h5 className="card-title">
                                             {this.props.users.find(user => user.id === message.userId
@@ -21,11 +29,11 @@ export default class ChatList extends Component {
                                 </div>
                             )
                         }
-                    </div>
+                    </section>
+                    <section className="send-message">
+                    <ChatSendMessage {...this.props} />
                 </section>
-                <section className="send-message">
-                <ChatSendMessage {...this.props} />
-                </section>
+                </article>
             </React.Fragment>
         )
     }
