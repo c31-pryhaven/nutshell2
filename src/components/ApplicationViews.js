@@ -1,36 +1,34 @@
-import { withRouter } from "react-router";
-import { Route } from "react-router-dom";
-import React, { Component } from "react";
-import ArticleList from "./articles/ArticlesList";
-import ArticleManager from "./articles/ArticleManager";
-import ArticleForm from "./articles/ArticlesForm";
-import ArticleEditForm from "./articles/ArticleEditForm";
+import { withRouter } from "react-router"
+import { Route } from "react-router-dom"
+import React, { Component } from "react"
+import ArticleList from "./articles/ArticlesList"
+import ArticleManager from "./articles/ArticleManager"
+import ArticleForm from "./articles/ArticlesForm"
+import ArticleEditForm from "./articles/ArticleEditForm"
 // import Article from "./articles/Articles"
-import TaskManager from "./tasks/TaskManager";
-import TaskList from "./tasks/TaskList";
-import TaskForm from "./tasks/TaskForm";
+import TaskManager from "./tasks/TaskManager"
+import TaskList from "./tasks/TaskList"
+import TaskForm from "./tasks/TaskForm"
 import TaskEditForm from "./tasks/TaskEditForm"
 // import Task from "./tasks/Task"
-import EventManager from "./events/EventManager";
-import EventList from "./events/EventsList";
-import EventForm from "./events/EventsForm";
 import EditEventForm from "./events/EditEventForm"
+import EventManager from "./events/EventManager"
+import EventList from "./events/EventsList"
+import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
-import ChatManager from "./chat/ChatManager";
-import ChatList from "./chat/ChatList";
+import ChatManager from "./chat/ChatManager"
+import ChatList from "./chat/ChatList"
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
 import UserManager from "./users/UserManager"
 import FriendManager from "./friends/FriendManager"
-// import EventList from "./events/EventsList"
-// import EventForm from "./events/EventsForm"
 // import FriendLists from "./friends/FriendList"
 // import FriendForm from "./friends/FriendForm"
 // import Friend from "./friends/Friend"
-import Login from "./login/Login";
+import Login from "./login/Login"
 
 class ApplicationViews extends Component {
-  isAuthenticated = () => sessionStorage.getItem("credentials") !== null;
+  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
 
   state = {
     users: [],
@@ -39,7 +37,7 @@ class ApplicationViews extends Component {
     friends: [],
     tasks: [],
     events: []
-  };
+  }
 
   componentDidMount() {
     const newState = {}
@@ -60,16 +58,16 @@ class ApplicationViews extends Component {
         this.setState({
           tasks: tasks
         })
-      );
+      )
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
-      this.props.history.push("/tasks");
+      this.props.history.push("/tasks")
       this.setState({
         tasks: tasks
-      });
-    });
-  };
+      })
+    })
+  }
 
   updateTask = editedTaskObject => {
     return TaskManager.put(editedTaskObject)
@@ -77,9 +75,9 @@ class ApplicationViews extends Component {
       .then(tasks => {
         this.setState({
           tasks: tasks
-        });
-      });
-  };
+        })
+      })
+  }
 
   completeTask = completedTaskObject => {
     return TaskManager.patch(completedTaskObject)
@@ -87,9 +85,9 @@ class ApplicationViews extends Component {
       .then(tasks => {
         this.setState({
           tasks: tasks
-        });
-      });
-  };
+        })
+      })
+  }
 
   addEvent = event =>
     EventManager.postEvent(event)
@@ -98,7 +96,7 @@ class ApplicationViews extends Component {
         this.setState({
           events: events
         })
-      );
+      )
 
   deleteEvent = id => {
     return EventManager.removeAndList(id).then(events => {
@@ -116,7 +114,6 @@ class ApplicationViews extends Component {
           })
         })
   }
-
   addArticle = article =>
     ArticleManager.postArticle(article)
       .then(() => ArticleManager.getAll())
@@ -124,14 +121,14 @@ class ApplicationViews extends Component {
         this.setState({
           articles: article
         })
-      );
+      )
 
   deleteArticle = id => {
     return ArticleManager.removeAndList(id).then(articles => {
-      this.props.history.push("/articles");
-      this.setState({ articles: articles });
-    });
-  };
+      this.props.history.push("/articles")
+      this.setState({ articles: articles })
+    })
+  }
 
   updateArticle = editiedArticle => {
     return ArticleManager.putArticle(editiedArticle)
@@ -139,9 +136,9 @@ class ApplicationViews extends Component {
       .then(article => {
         this.setState({
           articles: article
-        });
-      });
-  };
+        })
+      })
+  }
 
   addMessage = message =>
     ChatManager.postMessage(message)
@@ -150,7 +147,7 @@ class ApplicationViews extends Component {
         this.setState({
           messages: message
         })
-      );
+      )
 
   render() {
     return (
@@ -168,13 +165,13 @@ class ApplicationViews extends Component {
                 articles={this.state.articles}
                 deleteArticle={this.deleteArticle}
               />
-            );
+            )
           }}
         />
         <Route
           path="/friends"
           render={props => {
-            return null;
+            return null
             // Remove null and return the component which will show list of friends
           }}
         />
@@ -193,14 +190,14 @@ class ApplicationViews extends Component {
                 deleteEvent={this.deleteEvent}
                 events={this.state.events}
               />
-            );
+            )
           }}
         />
         <Route
           exact
           path="/events/new"
           render={props => {
-            return <EventForm {...props} addEvent={this.addEvent} />;
+            return <EventForm {...props} addEvent={this.addEvent} />
           }}
         />
         <Route exact path ="/events/:eventId(\d+)/edit"
@@ -221,13 +218,13 @@ class ApplicationViews extends Component {
                 deleteTask={this.deleteTask}
                 tasks={this.state.tasks}
               />
-            );
+            )
           }}
         />
         <Route
           path="/tasks/new"
           render={props => {
-            return <TaskForm {...props} addTask={this.addTask} />;
+            return <TaskForm {...props} addTask={this.addTask} />
           }}
         />
         <Route
@@ -236,13 +233,13 @@ class ApplicationViews extends Component {
           render={props => {
             return (
               <TaskEditForm {...props} updateTask={this.updateTask} />
-            );
+            )
           }}
         />
         <Route
           path="/articles/new"
           render={props => {
-            return <ArticleForm {...props} addArticle={this.addArticle} />;
+            return <ArticleForm {...props} addArticle={this.addArticle} />
           }}
         />
         <Route
@@ -251,11 +248,11 @@ class ApplicationViews extends Component {
           render={props => {
             return (
               <ArticleEditForm {...props} updateArticle={this.updateArticle} />
-            );
+            )
           }}
         />
       </React.Fragment>
-    );
+    )
   }
 }
-export default withRouter(ApplicationViews);
+export default withRouter(ApplicationViews)
