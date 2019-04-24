@@ -1,0 +1,9 @@
+.messages {
+
+}
+
+.message__box {
+    height: 80vh;
+    min-height: 80vh;
+    overflow-y: scroll;
+}
