@@ -6,7 +6,6 @@ export default class EventForm extends Component {
         eventName: "",
         eventDate: "",
         eventLocation: "",
-        url: "",
         userId: ""
     };
     handleFieldChange = event => {
