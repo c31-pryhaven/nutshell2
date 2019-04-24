@@ -19,7 +19,8 @@ import ChatManager from "./chat/ChatManager";
 import ChatList from "./chat/ChatList";
 // import ChatForm from "./chat/ChatForm"
 // import Chat from "./chat/Chat"
-import FriendManager from "./friends/FriendManager";
+import UserManager from "./users/UserManager"
+import FriendManager from "./friends/FriendManager"
 // import EventList from "./events/EventsList"
 // import EventForm from "./events/EventsForm"
 // import FriendLists from "./friends/FriendList"
@@ -40,15 +41,15 @@ class ApplicationViews extends Component {
   };
 
   componentDidMount() {
-    const newState = {};
+    const newState = {}
 
-    ChatManager.getAll().then(messages => (newState.messages = messages));
-    ArticleManager.getAll().then(articles => (newState.articles = articles));
-    FriendManager.getAll().then(friends => (newState.friends = friends));
-    TaskManager.getAll().then(tasks => (newState.tasks = tasks));
-    EventManager.getAll()
-      .then(events => (newState.events = events))
-      .then(() => this.setState(newState));
+    ChatManager.getAll().then(messages => (newState.messages = messages))
+    ArticleManager.getAll().then(articles => (newState.articles = articles))
+    UserManager.getAll().then(users => newState.users = users)
+    FriendManager.getAll().then(friends => (newState.friends = friends))
+    TaskManager.getAll().then(tasks => (newState.tasks = tasks))
+    EventManager.getAll().then(events => (newState.events = events))
+      .then(() => this.setState(newState))
   }
 
   addTask = task =>
@@ -71,6 +72,16 @@ class ApplicationViews extends Component {
 
   updateTask = editedTaskObject => {
     return TaskManager.put(editedTaskObject)
+      .then(() => TaskManager.getAll())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        });
+      });
+  };
+
+  completeTask = completedTaskObject => {
+    return TaskManager.patch(completedTaskObject)
       .then(() => TaskManager.getAll())
       .then(tasks => {
         this.setState({
@@ -132,8 +143,8 @@ class ApplicationViews extends Component {
   render() {
     return (
       <React.Fragment>
-        <Route exact path="/" 
-        component={Login} return null 
+        <Route exact path="/"
+          component={Login} return null
         />
         <Route
           exact
@@ -156,15 +167,8 @@ class ApplicationViews extends Component {
           }}
         />
         <Route
-          path="/messages"
-          render={props => {
-            return (
-              <ChatList
-                messages={this.state.messages}
-                addMessage={this.addMessage}
-                {...props}
-              />
-            );
+          path="/messages" render={props => {
+            return <ChatList messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} />
           }}
         />
         <Route
@@ -194,6 +198,7 @@ class ApplicationViews extends Component {
             return (
               <TaskList
                 {...props}
+                completeTask={this.completeTask}
                 deleteTask={this.deleteTask}
                 tasks={this.state.tasks}
               />
