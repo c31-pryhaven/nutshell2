@@ -10,7 +10,7 @@ export default class ChatEditForm extends Component {
         userId: "",
     }
 
-    //pulls value from event to set state to the value of that event's target.
+    //pulls value from event target (text area) whenever the target is updated, to set state to the value of that event's target.
     handleFieldChange = event => {
         const stateToChange = {};
         stateToChange[event.target.id] = event.target.value;
