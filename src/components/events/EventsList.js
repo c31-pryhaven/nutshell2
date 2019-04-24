@@ -30,7 +30,7 @@ export default class EventList extends Component {
                                         onClick={() => {
                                             this.props.deleteEvent(event.id)
                                         }}>Delete</button>
-                                    <button className="EditButton"
+                                    <button className="editButton"
                                             onClick={() => {
                                                 this.props.history.push(`/events/${event.id}/edit`)
                                             }}>Edit</button>
