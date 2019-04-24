@@ -11,6 +11,7 @@ import TaskList from "./tasks/TaskList"
 import TaskForm from "./tasks/TaskForm"
 import TaskEditForm from "./tasks/TaskEditForm"
 // import Task from "./tasks/Task"
+import EditEventForm from "./events/EditEventForm"
 import EventManager from "./events/EventManager"
 import EventList from "./events/EventsList"
 import EventForm from "./events/EventsForm"
@@ -99,9 +100,19 @@ class ApplicationViews extends Component {
 
   deleteEvent = id => {
     return EventManager.removeAndList(id).then(events => {
-      this.props.history.push("/events")
-      this.setState({ events: events })
-    })
+      this.props.history.push("/events");
+      this.setState({ events: events });
+    });
+  };
+
+  updateEvent = editedEventObject => {
+    return EventManager.putEvent(editedEventObject)
+        .then(() => EventManager.getAll())
+        .then(events => {
+          this.setState({
+            events : events
+          })
+        })
   }
   addArticle = article =>
     ArticleManager.postArticle(article)
@@ -189,6 +200,13 @@ class ApplicationViews extends Component {
             return <EventForm {...props} addEvent={this.addEvent} />
           }}
         />
+        <Route exact path ="/events/:eventId(\d+)/edit"
+          render={props => {
+            return (
+              <EditEventForm {...props} updateEvent={this.updateEvent} />
+            )
+          }}
+          />
         <Route
           exact
           path="/tasks"

@@ -28,5 +28,14 @@ export default {
             },
             body: JSON.stringify(newEvent)
         }).then(data => data.json())
+    },
+    putEvent(editedEvent) {
+        return fetch(`${url}/events/${editedEvent.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editedEvent)
+        }).then(data => data.json());
     }
 }
