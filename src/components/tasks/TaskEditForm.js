@@ -5,7 +5,8 @@ export default class TaskEditForm extends Component {
     // Set initial state
     state = {
       taskName: "",
-      targetDate: ""
+      targetDate: "",
+      isComplete: ""
     }
 
 
@@ -21,7 +22,8 @@ export default class TaskEditForm extends Component {
         const editedTask = {
           id: Number(this.props.match.params.taskId),
           taskName: this.state.taskName,
-          targetDate: this.state.targetDate
+          targetDate: this.state.targetDate,
+          isComplete: false
         }
 
     this.props.updateTask(editedTask)
