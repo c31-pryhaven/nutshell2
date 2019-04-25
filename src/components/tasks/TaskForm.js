@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 import "./task.css"
 
+
+let currentUserId = sessionStorage.getItem("userId")
 export default class TaskForm extends Component {
   // Set initial state for tasks
   state = {
     taskName: "",
     targetDate: "",
-    isComplete: false
+    isComplete: false,
+    userId: ""
   }
 
   // Update tasks state whenever an input field is edited
@@ -27,7 +30,7 @@ export default class TaskForm extends Component {
         taskName: this.state.taskName,
         targetDate: this.state.targetDate,
         isComplete: false,
-        userId: ""
+        userId: Number(currentUserId)
       }
       // Create the task and redirect user to the task list
       this.props

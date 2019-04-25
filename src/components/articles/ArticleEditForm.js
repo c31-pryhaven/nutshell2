@@ -1,11 +1,16 @@
 import React, { Component } from "react"
 import ArticleManager from "./ArticleManager";
 
+
+
+let currentUserId = sessionStorage.getItem("userId")
 export default class ArticleEditForm extends Component {
     state = {
         title: "",
         url: "",
-        synopsis: ""
+        synopsis: "",
+        userId: "",
+        timeStamp: ""
     }
 
     handleFieldChange = (event) => {
@@ -21,9 +26,11 @@ export default class ArticleEditForm extends Component {
             id: Number(this.props.match.params.articleId),
             title: this.state.title,
             url: this.state.url,
-            synopsis: this.state.synopsis
+            synopsis: this.state.synopsis,
+            userId: Number(currentUserId)
         };
         this.props.updateArticle(editiedArticle).then(() => this.props.history.push("/articles"))
+        this.props.userSpecificData()
     }
 
 
