@@ -25,14 +25,21 @@ export default class ChatList extends Component {
                                             ).userName}
                                         </h5>
                                         <p className="card-text">{message.message}</p>
+                                        <div>
+                                        <button className="editButton"
+                                            onClick={() => {
+                                                this.props.history.push(`/messages/${message.id}/edit`)
+                                            }}>Edit</button>
                                     </div>
+
                                 </div>
-                            )
-                        }
+                                </div>
+                    )
+                }
                     </section>
                     <section className="send-message">
-                    <ChatSendMessage {...this.props} />
-                </section>
+                        <ChatSendMessage {...this.props} />
+                    </section>
                 </article>
             </React.Fragment>
         )
