@@ -161,8 +161,8 @@ class ApplicationViews extends Component {
         })
       )
 
-      updateMessage = editiedMessage => {
-        return ChatManager.putMessage(editiedMessage)
+      updateMessage = editedMessage => {
+        return ChatManager.patchMessage(editedMessage)
           .then(() => ChatManager.getAll())
           .then(message => {
             this.setState({

@@ -7,12 +7,6 @@ export default {
     getAll() {
         return fetch(`${url}/messages`).then(l => l.json())
     },
-    delete(id) {
-        return fetch(`${url}/messages/${id}`, {
-                method: "DELETE"
-            })
-            .then(l => l.json())
-    },
     removeAndList(id) {
         return fetch(`${url}/messages/${id}`, {
                 method: "DELETE"
@@ -28,5 +22,15 @@ export default {
             },
             body: JSON.stringify(newMessage)
         }).then(data => data.json())
+    },
+    patchMessage(editedMessage) {
+        return fetch(`${url}/messages/${editedMessage.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editedMessage)
+        }).then(data => data.json());
     }
+
 }

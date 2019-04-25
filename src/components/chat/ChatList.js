@@ -31,7 +31,6 @@ export default class ChatList extends Component {
                                                 this.props.history.push(`/messages/${message.id}/edit`)
                                             }}>Edit</button>
                                     </div>
-
                                 </div>
                                 </div>
                     )
