@@ -40,7 +40,7 @@ class ApplicationViews extends Component {
     friends: [],
     tasks: [],
     events: [],
-    userId: ""
+    userId: []
   }
   
   componentDidMount() {
@@ -55,7 +55,7 @@ class ApplicationViews extends Component {
     .then(() => ChatManager.getAll().then(messages => newState.messages = messages))
     .then(() => FriendManager.getAll().then(friends => (newState.friends = friends)))
     .then(() => TaskManager.getAll(currentUserId).then(tasks => (newState.tasks = tasks)))
-    .then(() => EventManager.getAll().then(events => (newState.events = events)))
+    .then(() => EventManager.getAll(currentUserId).then(events => (newState.events = events)))
     .then(() => this.setState(newState))
   }
   onLogin = () => {
@@ -172,7 +172,16 @@ class ApplicationViews extends Component {
     return (
       <React.Fragment>
         <Route exact path="/" render={(props) => {
-          return <Login onLogin={this.onLogin} userSpecificData={this.userSpecificData} {...props} />
+          return <Login onLogin={this.onLogin} userSpecificData={this.userSpecificData} 
+          {...props} />
+        }}
+        />
+        <Route 
+        exact path="/login/new" render={props => {
+          return (
+            <LoginForm {...props} addUser={this.addUser} onLogin={this.onLogin} 
+            userSpecificData={this.userSpecificData}/>
+          )
         }}
         />
         <Route
@@ -185,7 +194,6 @@ class ApplicationViews extends Component {
                 articles={this.state.articles}
                 deleteArticle={this.deleteArticle}
                 userSpecificData={this.userSpecificData}
-                
               />
             )
           }}
@@ -219,7 +227,8 @@ class ApplicationViews extends Component {
           exact
           path="/events/new"
           render={props => {
-            return <EventForm {...props} addEvent={this.addEvent} userSpecificData={this.userSpecificData} />
+            return <EventForm {...props} addEvent={this.addEvent} 
+            userSpecificData={this.userSpecificData} />
           }}
         />
         <Route exact path ="/events/:eventId(\d+)/edit"
@@ -247,7 +256,8 @@ class ApplicationViews extends Component {
         <Route
           path="/tasks/new"
           render={props => {
-            return <TaskForm {...props} addTask={this.addTask} userSpecificData={this.userSpecificData} />
+            return <TaskForm {...props} addTask={this.addTask} 
+            userSpecificData={this.userSpecificData} />
           }}
         />
         <Route
@@ -262,7 +272,8 @@ class ApplicationViews extends Component {
         <Route
           path="/articles/new"
           render={props => {
-            return <ArticleForm {...props} addArticle={this.addArticle} userSpecificData={this.userSpecificData} />
+            return <ArticleForm {...props} addArticle={this.addArticle} 
+            userSpecificData={this.userSpecificData} />
           }}
         />
         <Route
@@ -270,16 +281,10 @@ class ApplicationViews extends Component {
           path="/articles/:articleId(\d+)/edit"
           render={props => {
             return (
-              <ArticleEditForm {...props} updateArticle={this.updateArticle} userSpecificData={this.userSpecificData} />
+              <ArticleEditForm {...props} updateArticle={this.updateArticle} 
+              userSpecificData={this.userSpecificData} />
             )
           }}
-        />
-        <Route 
-        exact path="/login/new" render={props => {
-          return (
-            <LoginForm {...props} addUser={this.addUser}/>
-          )
-        }}
         />
         <Route exact path="/dashboard" render={props => {
           return (

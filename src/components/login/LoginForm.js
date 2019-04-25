@@ -1,28 +1,36 @@
 import React, { Component } from "react"
+import UserManager from "../users/UserManager"
 
 export default class LoginForm extends Component {
     state = {
         userName: "",
-        email: ""
+        email: "",
+        userId: ""
     }
 
     handleFieldChange = (event) => {
-        const stateToChange = {};
+        const stateToChange = {}
         stateToChange[event.target.id] = event.target.value;
-        console.log(stateToChange)
-        this.setState(stateToChange);
-    };
+        this.setState(stateToChange)
+    }
 
     newUser = event => {
-        event.preventDefault();
+        event.preventDefault()
         const user = {
             userName: this.state.userName,
             email: this.state.email
-        };
-        this.props.addUser(user).then(() => this.props.history.push("/users"))
-        
+        }
+        this.props.addUser(user).then(() => UserManager.getAll()
+        .then(userList => {
+            let tempUserName = userList.find(element => element.userName.toLowerCase() ===
+            this.state.userName.toLowerCase() && element.email.toLowerCase() ===
+            this.state.email.toLowerCase())
+            if (tempUserName) {
+                sessionStorage.setItem("userId", tempUserName.id)
+                this.props.onLogin()
+                this.props.history.push("/articles") 
+            } })).then(() => this.props.userSpecificData())
     }
-
 
 render() {
     return (
@@ -37,6 +45,7 @@ render() {
                             onChange={this.handleFieldChange}
                             id="userName"
                             placeholder="user name"
+                            value={this.state.userName}
                         />
                 <label htmlFor="email">Email:</label>
                 <input
@@ -46,10 +55,11 @@ render() {
                             onChange={this.handleFieldChange}
                             id="email"
                             placeholder="email"
+                            value={this.state.email}
                         />
                         <button
                             type="submit"
-                            onClick={this.newArticle}
+                            onClick={this.newUser}
                             className="btn btn-primary"
                             >
                             Submit</button>

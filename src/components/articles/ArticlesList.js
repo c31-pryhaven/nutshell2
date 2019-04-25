@@ -17,7 +17,7 @@ export default class ArticleList extends Component {
                                 this.props.history.push("/articles/new")
                             }}
                         >
-                            Create Task
+                            Create Article
                         </button>
                     </div>
                 </section>
