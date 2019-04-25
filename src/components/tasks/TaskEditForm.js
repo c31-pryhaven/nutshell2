@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 import TaskManager from "./TaskManager"
 
+let currentUserId = sessionStorage.getItem("userId")
+
 export default class TaskEditForm extends Component {
     // Set initial state
     state = {
       taskName: "",
       targetDate: "",
-      isComplete: ""
+      isComplete: "",
+      userId: ""
     }
 
 
@@ -23,17 +26,18 @@ export default class TaskEditForm extends Component {
           id: Number(this.props.match.params.taskId),
           taskName: this.state.taskName,
           targetDate: this.state.targetDate,
-          isComplete: false
+          isComplete: false,
+          userId: Number(currentUserId)
         }
 
     this.props.updateTask(editedTask)
-    .then(() => this.props.history.push("/tasks"))      
+    .then(() => this.props.history.push("/tasks"))
+    this.props.userSpecificData()
     }
   
     componentDidMount() {
       TaskManager.get(this.props.match.params.taskId)
       .then(task => {
-        console.log(this.props)
         this.setState({
           taskName: task.taskName,
           targetDate: task.targetDate

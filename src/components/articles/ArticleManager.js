@@ -5,7 +5,7 @@ export default {
     get(id) {
         return fetch(`${url}/articles/${id}`).then(l => l.json())
     },
-    getAll() {
+    getAll(currentUserId) {
         return fetch(`${url}/articles?userId=${currentUserId}`).then(l => l.json())
     },
     delete(id) {
