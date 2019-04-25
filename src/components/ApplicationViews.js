@@ -18,8 +18,7 @@ import EventForm from "./events/EventsForm"
 // import Event from "./events/Events"
 import ChatManager from "./chat/ChatManager"
 import ChatList from "./chat/ChatList"
-// import ChatForm from "./chat/ChatForm"
-// import Chat from "./chat/Chat"
+import ChatEditForm from "./chat/ChatEditForm"
 import UserManager from "./users/UserManager"
 import FriendManager from "./friends/FriendManager"
 // import FriendLists from "./friends/FriendList"
@@ -32,7 +31,7 @@ let currentUserId = sessionStorage.getItem("userId")
 class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
   currentUserId = sessionStorage.getItem("userId")
-  
+
   state = {
     users: [],
     messages: [],
@@ -42,7 +41,7 @@ class ApplicationViews extends Component {
     events: [],
     userId: ""
   }
-  
+
   componentDidMount() {
     this.userSpecificData()
   }
@@ -60,10 +59,10 @@ class ApplicationViews extends Component {
   }
   onLogin = () => {
     this.setState({
-    userId: sessionStorage.getItem("userId")
+      userId: sessionStorage.getItem("userId")
     })
   }
-  
+
   addTask = task =>
   TaskManager.postTask(task)
   .then(() => TaskManager.getAll(currentUserId))
@@ -121,12 +120,12 @@ class ApplicationViews extends Component {
 
   updateEvent = editedEventObject => {
     return EventManager.putEvent(editedEventObject)
-        .then(() => EventManager.getAll())
-        .then(events => {
-          this.setState({
-            events : events
-          })
+      .then(() => EventManager.getAll())
+      .then(events => {
+        this.setState({
+          events: events
         })
+      })
   }
   addArticle = article =>
     ArticleManager.postArticle(article)
@@ -164,8 +163,18 @@ class ApplicationViews extends Component {
         })
       )
 
-      addUser = user =>
-      UserManager.postUser(user)
+      updateMessage = editedMessage => {
+        return ChatManager.patchMessage(editedMessage)
+          .then(() => ChatManager.getAll())
+          .then(message => {
+            this.setState({
+              messages: message
+            })
+          })
+      }
+
+  addUser = user =>
+    UserManager.postUser(user)
 
 
   render() {
@@ -198,8 +207,18 @@ class ApplicationViews extends Component {
           }}
         />
         <Route
+        exact
           path="/messages" render={props => {
-            return <ChatList {...props} messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} />
+            return <ChatList {...props} messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} currentUserId={this.currentUserId} />
+          }}
+        />
+        <Route
+          exact
+          path="/messages/:messageId(\d+)/edit"
+          render={props => {
+            return (
+              <ChatEditForm {...props} updateMessage={this.updateMessage} />
+            )
           }}
         />
         <Route
@@ -222,13 +241,13 @@ class ApplicationViews extends Component {
             return <EventForm {...props} addEvent={this.addEvent} userSpecificData={this.userSpecificData} />
           }}
         />
-        <Route exact path ="/events/:eventId(\d+)/edit"
+        <Route exact path="/events/:eventId(\d+)/edit"
           render={props => {
             return (
               <EditEventForm {...props} updateEvent={this.updateEvent} userSpecificData={this.userSpecificData} />
             )
           }}
-          />
+        />
         <Route
           exact
           path="/tasks"
@@ -274,18 +293,18 @@ class ApplicationViews extends Component {
             )
           }}
         />
-        <Route 
-        exact path="/login/new" render={props => {
-          return (
-            <LoginForm {...props} addUser={this.addUser}/>
-          )
-        }}
+        <Route
+          exact path="/login/new" render={props => {
+            return (
+              <LoginForm {...props} addUser={this.addUser} />
+            )
+          }}
         />
         <Route exact path="/dashboard" render={props => {
           return (
             <DashBoardList {...props}
-            articles={this.state.articles}
-            tasks={this.state.tasks}/>
+              articles={this.state.articles}
+              tasks={this.state.tasks} />
           )
         }}
         />
