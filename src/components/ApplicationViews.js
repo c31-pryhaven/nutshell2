@@ -185,7 +185,7 @@ class ApplicationViews extends Component {
                 articles={this.state.articles}
                 deleteArticle={this.deleteArticle}
                 userSpecificData={this.userSpecificData}
-                
+
               />
             )
           }}
