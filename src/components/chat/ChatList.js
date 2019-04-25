@@ -3,6 +3,14 @@ import ChatSendMessage from "./ChatSendMessage";
 import './ChatList.css'
 
 export default class ChatList extends Component {
+    appendEditButton = (message) => {
+        if (this.currentuserId === message.userId){
+        return <button className="editButton"
+            onClick={() => {
+                this.props.history.push(`/messages/${message.id}/edit`)
+            }}>Edit</button>
+        }
+    }
 
     scrollToBottom = () => {
         if (this.messageBox) {
@@ -12,6 +20,7 @@ export default class ChatList extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <React.Fragment>
                 <article className="messages">
@@ -25,12 +34,7 @@ export default class ChatList extends Component {
                                             ).userName}
                                         </h5>
                                         <p className="card-text">{message.message}</p>
-                                        <div>
-                                        <button className="editButton"
-                                            onClick={() => {
-                                                this.props.history.push(`/messages/${message.id}/edit`)
-                                            }}>Edit</button>
-                                    </div>
+                                        {this.appendEditButton(message)}
                                 </div>
                                 </div>
                     )

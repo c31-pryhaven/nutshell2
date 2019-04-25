@@ -19,8 +19,6 @@ import EventForm from "./events/EventsForm"
 import ChatManager from "./chat/ChatManager"
 import ChatList from "./chat/ChatList"
 import ChatEditForm from "./chat/ChatEditForm"
-// import ChatForm from "./chat/ChatForm"
-// import Chat from "./chat/Chat"
 import UserManager from "./users/UserManager"
 import FriendManager from "./friends/FriendManager"
 // import FriendLists from "./friends/FriendList"
@@ -211,7 +209,7 @@ class ApplicationViews extends Component {
         <Route
         exact
           path="/messages" render={props => {
-            return <ChatList {...props} messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} />
+            return <ChatList {...props} messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} currentUserID={this.currentUserId} />
           }}
         />
         <Route
