@@ -4,10 +4,11 @@ export default class chatSendMessage extends Component {
     //initial message state.
     state = {
         message: "",
-        userId: this.props.currentUserId,
+        userId: parseInt(this.props.currentUserId)
     };
 
     handleMessageInput = (event) => {
+        console.log(this.props.currentUserId);
         const stateToChange = {};
         stateToChange[event.target.id] = event.target.value;
         this.setState(stateToChange);
@@ -20,7 +21,7 @@ export default class chatSendMessage extends Component {
         } else {
             const message = {
                 message: this.state.message,
-                userId: parseInt(this.state.userId)
+                userId: parseInt(this.props.currentUserId)
             };
 
             this.props.addMessage(message)

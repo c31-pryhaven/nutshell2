@@ -3,12 +3,24 @@ import ChatSendMessage from "./ChatSendMessage";
 import './ChatList.css'
 
 export default class ChatList extends Component {
+    findUser = (message) => {
+        if (this.props.users.find(user =>
+            user.id === message.userId)) {
+            return this.props.users.find(user =>
+                user.id === message.userId).userName;
+        }
+        else {
+            return "Guest"
+        }
+    }
+
     appendEditButton = (message) => {
-        if (this.currentuserId === message.userId){
-        return <button className="editButton"
-            onClick={() => {
-                this.props.history.push(`/messages/${message.id}/edit`)
-            }}>Edit</button>
+        if (parseInt(this.currentuserId) === message.userId) {
+            console.log("yes")
+            return <button className="editButton"
+                onClick={() => {
+                    this.props.history.push(`/messages/${message.id}/edit`)
+                }}>Edit</button>
         }
     }
 
@@ -20,7 +32,6 @@ export default class ChatList extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <React.Fragment>
                 <article className="messages">
@@ -30,18 +41,20 @@ export default class ChatList extends Component {
                                 <div key={message.id} className="card list-group-item">
                                     <div className="card-body">
                                         <h5 className="card-title">
-                                            {this.props.users.find(user => user.id === message.userId
-                                            ).userName}
+                                            {this.findUser(message)}
                                         </h5>
                                         <p className="card-text">{message.message}</p>
-                                        {this.appendEditButton(message)}
+                                        {<button className="editButton"
+                                            onClick={() => {
+                                                this.props.history.push(`/messages/${message.id}/edit`)
+                                            }}>Edit</button>}
+                                    </div>
                                 </div>
-                                </div>
-                    )
-                }
+                            )
+                        }
                     </section>
                     <section className="send-message">
-                        <ChatSendMessage {...this.props} />
+                        <ChatSendMessage currentUserId={this.currentUserId} {...this.props} />
                     </section>
                 </article>
             </React.Fragment>
