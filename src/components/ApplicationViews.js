@@ -28,7 +28,9 @@ import FriendManager from "./friends/FriendManager"
 import Login from "./login/Login"
 import LoginForm from "./login/LoginForm";
 import DashBoardList from "./dashboard/DashBoardList"
+
 let currentUserId = sessionStorage.getItem("userId")
+
 class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
   currentUserId = sessionStorage.getItem("userId")
@@ -130,7 +132,7 @@ class ApplicationViews extends Component {
   }
   addArticle = article =>
     ArticleManager.postArticle(article)
-      .then(() => ArticleManager.getAll(currentUserId))
+      .then(() => ArticleManager.getAll())
       .then(article =>
         this.setState({
           articles: article
@@ -185,20 +187,6 @@ class ApplicationViews extends Component {
         }}
         />
         <Route
-          exact
-          path="/articles"
-          render={props => {
-            return (
-              <ArticleList
-                {...props}
-                articles={this.state.articles}
-                deleteArticle={this.deleteArticle}
-                userSpecificData={this.userSpecificData}
-              />
-            )
-          }}
-        />
-        <Route
           path="/friends"
           render={props => {
             return null
@@ -217,8 +205,9 @@ class ApplicationViews extends Component {
             return (
               <EventList
                 {...props}
+                events={this.state.events} 
                 deleteEvent={this.deleteEvent}
-                events={this.state.events} userSpecificData={this.userSpecificData}
+                userSpecificData={this.userSpecificData}
               />
             )
           }}
@@ -243,12 +232,8 @@ class ApplicationViews extends Component {
           path="/tasks"
           render={props => {
             return (
-              <TaskList
-                {...props}
-                completeTask={this.completeTask}
-                deleteTask={this.deleteTask}
-                tasks={this.state.tasks}
-                userSpecificData={this.userSpecificData}
+              <TaskList {...props} completeTask={this.completeTask} deleteTask={this.deleteTask}
+                tasks={this.state.tasks} userSpecificData={this.userSpecificData}
               />
             )
           }}
@@ -256,41 +241,55 @@ class ApplicationViews extends Component {
         <Route
           path="/tasks/new"
           render={props => {
-            return <TaskForm {...props} addTask={this.addTask} 
-            userSpecificData={this.userSpecificData} />
+            return <TaskForm {...props} 
+            addTask={this.addTask} 
+            userSpecificData={this.userSpecificData} 
+            />
           }}
         />
         <Route
           exact
           path="/tasks/:taskId(\d+)/edit"
           render={props => {
-            return (
-              <TaskEditForm {...props} updateTask={this.updateTask} userSpecificData={this.userSpecificData} />
-            )
+            return <TaskEditForm {...props} 
+              updateTask={this.updateTask} 
+              userSpecificData={this.userSpecificData} 
+              />
+          }}
+        />
+        <Route
+          exact
+          path="/articles"
+          render={props => {
+            return <ArticleList {...props} 
+            articles={this.state.articles} 
+            deleteArticle={this.deleteArticle} 
+            userSpecificData={this.userSpecificData}
+            />
           }}
         />
         <Route
           path="/articles/new"
           render={props => {
-            return <ArticleForm {...props} addArticle={this.addArticle} 
-            userSpecificData={this.userSpecificData} />
+            return <ArticleForm {...props}
+             addArticle={this.addArticle}
+             userSpecificData={this.userSpecificData}
+             />
           }}
         />
         <Route
           exact
           path="/articles/:articleId(\d+)/edit"
           render={props => {
-            return (
-              <ArticleEditForm {...props} updateArticle={this.updateArticle} 
-              userSpecificData={this.userSpecificData} />
-            )
+            return <ArticleEditForm {...props} 
+            updateArticle={this.updateArticle} 
+            userSpecificData={this.userSpecificData} 
+            />
           }}
         />
         <Route exact path="/dashboard" render={props => {
           return (
-            <DashBoardList {...props}
-            articles={this.state.articles}
-            tasks={this.state.tasks}/>
+            <DashBoardList {...props} articles={this.state.articles} tasks={this.state.tasks}/>
           )
         }}
         />
