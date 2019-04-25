@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 
+
+let currentUserId = sessionStorage.getItem("userId")
 export default class ArticleForm extends Component {
     state = {
         title: "",
         url: "",
-        synopsis: ""
+        synopsis: "",
+        userId: ""
     }
-
+    currentUserId = sessionStorage.getItem("userId")
     handleFieldChange = (event) => {
         const stateToChange = {};
         stateToChange[event.target.id] = event.target.value;
@@ -19,7 +22,8 @@ export default class ArticleForm extends Component {
         const article = {
             title: this.state.articleTitle,
             url: this.state.articleUrl,
-            synopsis: this.state.articleSynopsis
+            synopsis: this.state.articleSynopsis,
+            userId: Number(currentUserId)
         };
         this.props.addArticle(article).then(() => this.props.history.push("/articles"))
     }

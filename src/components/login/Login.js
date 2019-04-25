@@ -24,15 +24,16 @@ export default class Login extends Component {
             if (tempUserName) {
                 sessionStorage.setItem("userId", tempUserName.id)
                 this.props.onLogin()
-                this.props.history.push("/articles") 
+                this.props.history.push("/tasks") 
             } else {
                 window.alert("Not Found!")
-        }})
+        }}).then(() => this.props.userSpecificData())
 
     }
 
     render() {
         return (
+            <React.Fragment>
             <form onSubmit={this.handleLogin} className="content">
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label htmlFor="userName">
@@ -50,9 +51,7 @@ export default class Login extends Component {
                     placeholder="email"
                     required="" />
                 <button type="submit"
-                onClick={() => 
-                                this.handleLogin
-                            }>
+                onClick={() => this.handleLogin}>
                     Sign in
                 </button>
                 <button type="Register"
@@ -61,6 +60,7 @@ export default class Login extends Component {
                             }}>
                 Register</button>
             </form>
+            </React.Fragment>
         )
     }
 }

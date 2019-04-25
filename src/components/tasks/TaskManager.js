@@ -1,28 +1,30 @@
 const url = "http://localhost:8088";
 
+
+let currentUserId = sessionStorage.getItem("userId")
 export default {
     get(id) {
         return fetch(`${url}/tasks/${id}`).then(l => l.json())
     },
-    getAll() {
-        return fetch(`${url}/tasks?isComplete=false`).then(l => l.json())
+    getAll(currentUserId) {
+        return fetch(`${url}/tasks?userId=${currentUserId}&isComplete=false`).then(l => l.json())
     },
     delete(id) {
         return fetch(`${url}/tasks/${id}`, {
             method: "DELETE"
         })
-        .then(l => l.json())
+            .then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/tasks/${id}`, {
-          method: "DELETE"
+            method: "DELETE"
         })
-          .then(e => e.json())
-          .then(this.getAll);
-      },
+            .then(e => e.json())
+            .then(this.getAll);
+    },
     postTask(newTask) {
         return fetch(`${url}/tasks`, {
-            method:"POST",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -31,20 +33,20 @@ export default {
     },
     put(editedTask) {
         return fetch(`${url}/tasks/${editedTask.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(editedTask)
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editedTask)
         }).then(data => data.json());
     },
     patch(completedTask) {
         return fetch(`${url}/tasks/${completedTask.id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(completedTask)
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(completedTask)
         }).then(data => data.json());
     }
 }

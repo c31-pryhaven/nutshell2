@@ -9,6 +9,7 @@ export default class TaskList extends Component {
       id: id
     }
     this.props.completeTask(object)
+    this.props.userSpecificData()
   }
   render() {
     return (

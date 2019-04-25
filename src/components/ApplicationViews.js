@@ -28,7 +28,7 @@ import FriendManager from "./friends/FriendManager"
 import Login from "./login/Login"
 import LoginForm from "./login/LoginForm";
 import DashBoardList from "./dashboard/DashBoardList"
-
+let currentUserId = sessionStorage.getItem("userId")
 class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
   currentUserId = sessionStorage.getItem("userId")
@@ -44,16 +44,18 @@ class ApplicationViews extends Component {
   }
   
   componentDidMount() {
-    // let currentUserId = sessionStorage.getItem("userId")
-    
+    this.userSpecificData()
+  }
+
+  userSpecificData = () => {
     const newState = {}
-    
-    ChatManager.getAll().then(messages => (newState.messages = messages))
-    ArticleManager.getAll().then(articles => (newState.articles = articles))
-    UserManager.getAll().then(users => newState.users = users)
-    FriendManager.getAll().then(friends => (newState.friends = friends))
-    TaskManager.getAll().then(tasks => (newState.tasks = tasks))
-    EventManager.getAll().then(events => (newState.events = events))
+    let currentUserId = sessionStorage.getItem("userId")
+    UserManager.getAll().then(users => (newState.users = users))
+    .then(() => ArticleManager.getAll(currentUserId).then(articles => (newState.articles = articles)))
+    .then(() => ChatManager.getAll().then(messages => newState.messages = messages))
+    .then(() => FriendManager.getAll().then(friends => (newState.friends = friends)))
+    .then(() => TaskManager.getAll(currentUserId).then(tasks => (newState.tasks = tasks)))
+    .then(() => EventManager.getAll().then(events => (newState.events = events)))
     .then(() => this.setState(newState))
   }
   onLogin = () => {
@@ -64,7 +66,7 @@ class ApplicationViews extends Component {
   
   addTask = task =>
   TaskManager.postTask(task)
-  .then(() => TaskManager.getAll())
+  .then(() => TaskManager.getAll(currentUserId))
   .then(tasks =>
     this.setState({
           tasks: tasks
@@ -113,6 +115,7 @@ class ApplicationViews extends Component {
     return EventManager.removeAndList(id).then(events => {
       this.props.history.push("/events");
       this.setState({ events: events });
+      this.userSpecificData()
     });
   };
 
@@ -127,7 +130,7 @@ class ApplicationViews extends Component {
   }
   addArticle = article =>
     ArticleManager.postArticle(article)
-      .then(() => ArticleManager.getAll())
+      .then(() => ArticleManager.getAll(currentUserId))
       .then(article =>
         this.setState({
           articles: article
@@ -138,6 +141,7 @@ class ApplicationViews extends Component {
     return ArticleManager.removeAndList(id).then(articles => {
       this.props.history.push("/articles")
       this.setState({ articles: articles })
+      this.userSpecificData()
     })
   }
 
@@ -168,7 +172,7 @@ class ApplicationViews extends Component {
     return (
       <React.Fragment>
         <Route exact path="/" render={(props) => {
-          return <Login onLogin={this.onLogin} {...props}/>
+          return <Login onLogin={this.onLogin} userSpecificData={this.userSpecificData} {...props} />
         }}
         />
         <Route
@@ -180,6 +184,8 @@ class ApplicationViews extends Component {
                 {...props}
                 articles={this.state.articles}
                 deleteArticle={this.deleteArticle}
+                userSpecificData={this.userSpecificData}
+                
               />
             )
           }}
@@ -204,7 +210,7 @@ class ApplicationViews extends Component {
               <EventList
                 {...props}
                 deleteEvent={this.deleteEvent}
-                events={this.state.events}
+                events={this.state.events} userSpecificData={this.userSpecificData}
               />
             )
           }}
@@ -213,13 +219,13 @@ class ApplicationViews extends Component {
           exact
           path="/events/new"
           render={props => {
-            return <EventForm {...props} addEvent={this.addEvent} />
+            return <EventForm {...props} addEvent={this.addEvent} userSpecificData={this.userSpecificData} />
           }}
         />
         <Route exact path ="/events/:eventId(\d+)/edit"
           render={props => {
             return (
-              <EditEventForm {...props} updateEvent={this.updateEvent} />
+              <EditEventForm {...props} updateEvent={this.updateEvent} userSpecificData={this.userSpecificData} />
             )
           }}
           />
@@ -233,6 +239,7 @@ class ApplicationViews extends Component {
                 completeTask={this.completeTask}
                 deleteTask={this.deleteTask}
                 tasks={this.state.tasks}
+                userSpecificData={this.userSpecificData}
               />
             )
           }}
@@ -240,7 +247,7 @@ class ApplicationViews extends Component {
         <Route
           path="/tasks/new"
           render={props => {
-            return <TaskForm {...props} addTask={this.addTask} />
+            return <TaskForm {...props} addTask={this.addTask} userSpecificData={this.userSpecificData} />
           }}
         />
         <Route
@@ -248,14 +255,14 @@ class ApplicationViews extends Component {
           path="/tasks/:taskId(\d+)/edit"
           render={props => {
             return (
-              <TaskEditForm {...props} updateTask={this.updateTask} />
+              <TaskEditForm {...props} updateTask={this.updateTask} userSpecificData={this.userSpecificData} />
             )
           }}
         />
         <Route
           path="/articles/new"
           render={props => {
-            return <ArticleForm {...props} addArticle={this.addArticle} />
+            return <ArticleForm {...props} addArticle={this.addArticle} userSpecificData={this.userSpecificData} />
           }}
         />
         <Route
@@ -263,7 +270,7 @@ class ApplicationViews extends Component {
           path="/articles/:articleId(\d+)/edit"
           render={props => {
             return (
-              <ArticleEditForm {...props} updateArticle={this.updateArticle} />
+              <ArticleEditForm {...props} updateArticle={this.updateArticle} userSpecificData={this.userSpecificData} />
             )
           }}
         />
