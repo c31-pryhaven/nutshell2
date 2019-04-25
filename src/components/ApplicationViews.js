@@ -203,6 +203,7 @@ class ApplicationViews extends Component {
           }}
         />
         <Route
+        exact
           path="/messages" render={props => {
             return <ChatList {...props} messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} />
           }}
