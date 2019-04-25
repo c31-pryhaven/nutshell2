@@ -15,8 +15,7 @@ export default class ChatList extends Component {
     }
 
     appendEditButton = (message) => {
-        if (parseInt(this.currentuserId) === message.userId) {
-            console.log("yes")
+        if (parseInt(this.props.currentUserId) === message.userId) {
             return <button className="editButton"
                 onClick={() => {
                     this.props.history.push(`/messages/${message.id}/edit`)
@@ -44,17 +43,14 @@ export default class ChatList extends Component {
                                             {this.findUser(message)}
                                         </h5>
                                         <p className="card-text">{message.message}</p>
-                                        {<button className="editButton"
-                                            onClick={() => {
-                                                this.props.history.push(`/messages/${message.id}/edit`)
-                                            }}>Edit</button>}
+                                        {this.appendEditButton(message)}
                                     </div>
                                 </div>
                             )
                         }
                     </section>
                     <section className="send-message">
-                        <ChatSendMessage currentUserId={this.currentUserId} {...this.props} />
+                        <ChatSendMessage {...this.props} />
                     </section>
                 </article>
             </React.Fragment>
