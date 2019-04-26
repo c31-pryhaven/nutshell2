@@ -15,7 +15,7 @@ export default class ChatList extends Component {
     }
 
     appendEditButton = (message) => {
-        if (parseInt(this.props.currentUserId) === message.userId) {
+        if (Number(sessionStorage.getItem("userId")) === message.userId) {
             return <button className="editButton"
                 onClick={() => {
                     this.props.history.push(`/messages/${message.id}/edit`)

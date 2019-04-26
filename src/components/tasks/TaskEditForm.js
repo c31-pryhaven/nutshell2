@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import TaskManager from "./TaskManager"
 
-let currentUserId = sessionStorage.getItem("userId")
-
 export default class TaskEditForm extends Component {
     // Set initial state
     state = {
@@ -27,7 +25,7 @@ export default class TaskEditForm extends Component {
           taskName: this.state.taskName,
           targetDate: this.state.targetDate,
           isComplete: false,
-          userId: Number(currentUserId)
+          userId: Number(sessionStorage.getItem("userId"))
         }
 
     this.props.updateTask(editedTask)

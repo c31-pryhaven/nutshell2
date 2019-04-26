@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import "./task.css"
 
-
-let currentUserId = sessionStorage.getItem("userId")
 export default class TaskForm extends Component {
   // Set initial state for tasks
   state = {
@@ -30,12 +28,10 @@ export default class TaskForm extends Component {
         taskName: this.state.taskName,
         targetDate: this.state.targetDate,
         isComplete: false,
-        userId: Number(currentUserId)
+        userId: Number(sessionStorage.getItem("userId"))
       }
       // Create the task and redirect user to the task list
-      this.props
-        .addTask(task)
-        .then(() => this.props.history.push("/tasks"))
+      this.props.addTask(task).then(() => this.props.history.push("/tasks"))
     }
   }
 

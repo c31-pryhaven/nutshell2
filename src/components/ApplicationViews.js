@@ -28,12 +28,9 @@ import Login from "./login/Login"
 import LoginForm from "./login/LoginForm";
 import DashBoardList from "./dashboard/DashBoardList"
 
-let currentUserId = sessionStorage.getItem("userId")
-
 class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
-  currentUserId = sessionStorage.getItem("userId")
-
+ 
   state = {
     users: [],
     messages: [],
@@ -51,46 +48,35 @@ class ApplicationViews extends Component {
   userSpecificData = () => {
     const newState = {}
     let currentUserId = sessionStorage.getItem("userId")
-    UserManager.getAll().then(users => (newState.users = users))
+    UserManager.getAll(currentUserId).then(users => (newState.users = users))
     .then(() => ArticleManager.getAll(currentUserId).then(articles => (newState.articles = articles)))
-    .then(() => ChatManager.getAll().then(messages => newState.messages = messages))
-    .then(() => FriendManager.getAll().then(friends => (newState.friends = friends)))
+    .then(() => ChatManager.getAll(currentUserId).then(messages => newState.messages = messages))
+    .then(() => FriendManager.getAll(currentUserId).then(friends => (newState.friends = friends)))
     .then(() => TaskManager.getAll(currentUserId).then(tasks => (newState.tasks = tasks)))
     .then(() => EventManager.getAll(currentUserId).then(events => (newState.events = events)))
     .then(() => this.setState(newState))
   }
   onLogin = () => {
-    this.setState({
-      userId: sessionStorage.getItem("userId")
-    })
+    this.userSpecificData()
   }
 
-  addTask = task =>
-  TaskManager.postTask(task)
-  .then(() => TaskManager.getAll(currentUserId))
-  .then(tasks =>
-    this.setState({
-          tasks: tasks
-        })
-      )
+  addTask = task => {
+    return TaskManager.postTask(task)
+    .then(() => this.userSpecificData())
+  }
+  
 
   deleteTask = id => {
     return TaskManager.removeAndList(id).then(tasks => {
       this.props.history.push("/tasks")
-      this.setState({
-        tasks: tasks
-      })
+      this.setState({tasks: tasks})
+      this.userSpecificData()
     })
   }
 
   updateTask = editedTaskObject => {
     return TaskManager.put(editedTaskObject)
-      .then(() => TaskManager.getAll())
-      .then(tasks => {
-        this.setState({
-          tasks: tasks
-        })
-      })
+      .then(() => this.userSpecificData())
   }
 
   completeTask = completedTaskObject => {
@@ -103,96 +89,70 @@ class ApplicationViews extends Component {
       })
   }
 
-  addEvent = event =>
-    EventManager.postEvent(event)
-      .then(() => EventManager.getAll())
-      .then(events =>
-        this.setState({
-          events: events
-        })
-      )
+  addEvent = event => {
+    return EventManager.postEvent(event)
+    .then(() => this.userSpecificData())
+  }
 
   deleteEvent = id => {
-    return EventManager.removeAndList(id).then(events => {
-      this.props.history.push("/events");
-      this.setState({ events: events });
-      this.userSpecificData()
-    });
-  };
+    return EventManager.delete(id)
+    .then(() => this.userSpecificData())
+  }
 
   updateEvent = editedEventObject => {
     return EventManager.putEvent(editedEventObject)
-      .then(() => EventManager.getAll())
-      .then(events => {
-        this.setState({
-          events: events
-        })
-      })
+      .then(() => this.userSpecificData())
   }
-  addArticle = article =>
-    ArticleManager.postArticle(article)
-      .then(() => ArticleManager.getAll())
-      .then(article =>
-        this.setState({
-          articles: article
-        })
-      )
+  addArticle = article => {
+    return ArticleManager.postArticle(article)
+    .then(() => this.userSpecificData())
+  }
 
   deleteArticle = id => {
-    return ArticleManager.removeAndList(id).then(articles => {
-      this.props.history.push("/articles")
-      this.setState({ articles: articles })
-      this.userSpecificData()
-    })
+    return ArticleManager.delete(id)
+    .then(() => this.userSpecificData())
   }
 
   updateArticle = editiedArticle => {
     return ArticleManager.putArticle(editiedArticle)
-      .then(() => ArticleManager.getAll())
-      .then(article => {
-        this.setState({
-          articles: article
-        })
-      })
+    .then(() => this.userSpecificData())
   }
 
-  addMessage = message =>
-    ChatManager.postMessage(message)
-      .then(() => ChatManager.getAll())
-      .then(message =>
-        this.setState({
-          messages: message
-        })
-      )
+  addMessage = message => {
+    return ChatManager.postMessage(message)
+    .then(() => this.userSpecificData())
+  }
 
-      updateMessage = editedMessage => {
-        return ChatManager.patchMessage(editedMessage)
-          .then(() => ChatManager.getAll())
-          .then(message => {
-            this.setState({
-              messages: message
-            })
-          })
-      }
+  updateMessage = editedMessage => {
+    return ChatManager.patchMessage(editedMessage)
+    .then(() => this.userSpecificData())
+  }
 
   addUser = user =>
     UserManager.postUser(user)
 
-
   render() {
     return (
       <React.Fragment>
-        <Route exact path="/" render={(props) => {
-          return <Login onLogin={this.onLogin} userSpecificData={this.userSpecificData} 
-          {...props} />
+        <Route 
+        exact 
+        path="/" 
+        render={props => {
+          return <Login {...props} 
+          onLogin={this.onLogin} 
+          userSpecificData={this.userSpecificData} 
+           />
         }}
         />
         <Route 
-        exact path="/login/new" render={props => {
-          return (
-            <LoginForm {...props} addUser={this.addUser} onLogin={this.onLogin} 
-            userSpecificData={this.userSpecificData}/>
-          )
+        exact 
+        path="/login/new" 
+        render={props => {
+          return <LoginForm {...props} 
+          addUser={this.addUser} 
+          onLogin={this.onLogin} 
+          userSpecificData={this.userSpecificData}
+            />    
         }}
         />
         <Route
@@ -204,57 +164,66 @@ class ApplicationViews extends Component {
         />
         <Route
         exact
-          path="/messages" render={props => {
-            return <ChatList {...props} messages={this.state.messages} addMessage={this.addMessage} users={this.state.users} currentUserId={this.currentUserId} />
+        path="/messages" 
+        render={props => {
+            return <ChatList {...props} 
+            messages={this.state.messages} 
+            addMessage={this.addMessage} 
+            users={this.state.users} 
+           />
           }}
         />
         <Route
           exact
           path="/messages/:messageId(\d+)/edit"
           render={props => {
-            return (
-              <ChatEditForm {...props} updateMessage={this.updateMessage} />
-            )
+            return <ChatEditForm {...props} 
+            updateMessage={this.updateMessage} 
+            />
           }}
         />
         <Route
           exact
           path="/events"
           render={props => {
-            return (
-              <EventList
+            return <EventList
                 {...props}
                 events={this.state.events} 
                 deleteEvent={this.deleteEvent}
                 userSpecificData={this.userSpecificData}
               />
-            )
           }}
         />
         <Route
           exact
           path="/events/new"
           render={props => {
-            return <EventForm {...props} addEvent={this.addEvent} 
-            userSpecificData={this.userSpecificData} />
+            return <EventForm {...props} 
+            addEvent={this.addEvent} 
+            userSpecificData={this.userSpecificData} 
+            />
           }}
         />
-        <Route exact path="/events/:eventId(\d+)/edit"
+        <Route 
+        exact 
+        path="/events/:eventId(\d+)/edit"
           render={props => {
-            return (
-              <EditEventForm {...props} updateEvent={this.updateEvent} userSpecificData={this.userSpecificData} />
-            )
+            return <EditEventForm {...props} 
+            updateEvent={this.updateEvent} 
+            userSpecificData={this.userSpecificData} 
+            />
           }}
         />
         <Route
           exact
           path="/tasks"
           render={props => {
-            return (
-              <TaskList {...props} completeTask={this.completeTask} deleteTask={this.deleteTask}
-                tasks={this.state.tasks} userSpecificData={this.userSpecificData}
+            return <TaskList {...props} 
+            completeTask={this.completeTask} 
+            deleteTask={this.deleteTask}
+            tasks={this.state.tasks} 
+            userSpecificData={this.userSpecificData}
               />
-            )
           }}
         />
         <Route
@@ -305,20 +274,15 @@ class ApplicationViews extends Component {
             userSpecificData={this.userSpecificData} 
             />
           }}
-        />S
-        <Route
-          exact path="/login/new" render={props => {
-            return (
-              <LoginForm {...props} addUser={this.addUser} />
-            )
-          }}
         />
-        <Route exact path="/dashboard" render={props => {
-          return (
-            <DashBoardList {...props}
-              articles={this.state.articles}
-              tasks={this.state.tasks} />
-          )
+        <Route 
+        exact 
+        path="/dashboard" 
+        render={props => {
+          return <DashBoardList {...props}
+          articles={this.state.articles}
+          tasks={this.state.tasks} 
+          />
         }}
         />
       </React.Fragment>

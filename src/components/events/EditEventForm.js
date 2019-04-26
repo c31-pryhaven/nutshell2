@@ -22,7 +22,8 @@ export default class EditEventForm extends Component {
                 id : Number(this.props.match.params.eventId),
                 eventName: this.state.eventName,
                 eventDate: this.state.eventDate,
-                eventLocation: this.state.eventLocation
+                eventLocation: this.state.eventLocation,
+                userId: Number(sessionStorage.getItem("userId"))
             }
             this.props.updateEvent(editedEvent)
             .then(() => this.props.history.push("/events"))
@@ -30,7 +31,6 @@ export default class EditEventForm extends Component {
     componentDidMount() {
         EventManager.get(this.props.match.params.eventId)
         .then(event => {
-            console.log(this.props)
             this.setState({
                 eventName: event.eventName,
                 eventDate: event.eventDate,
