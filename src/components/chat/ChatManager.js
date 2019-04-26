@@ -4,8 +4,8 @@ export default {
     get(id) {
         return fetch(`${url}/messages/${id}`).then(l => l.json())
     },
-    getAll() {
-        return fetch(`${url}/messages`).then(l => l.json())
+    getAll(currentUserId) {
+        return fetch(`${url}/messages?userId=${currentUserId}`).then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/messages/${id}`, {

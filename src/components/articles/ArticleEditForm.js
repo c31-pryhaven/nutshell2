@@ -1,9 +1,6 @@
 import React, { Component } from "react"
 import ArticleManager from "./ArticleManager";
 
-
-
-let currentUserId = sessionStorage.getItem("userId")
 export default class ArticleEditForm extends Component {
     state = {
         title: "",
@@ -27,7 +24,7 @@ export default class ArticleEditForm extends Component {
             title: this.state.title,
             url: this.state.url,
             synopsis: this.state.synopsis,
-            userId: Number(currentUserId)
+            userId: Number(sessionStorage.getItem("userId"))
         };
         this.props.updateArticle(editiedArticle).then(() => this.props.history.push("/articles"))
         this.props.userSpecificData()

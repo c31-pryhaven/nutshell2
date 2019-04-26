@@ -1,5 +1,4 @@
 const url = "http://localhost:8088"
-let currentUserId = sessionStorage.getItem("userId")
 
 export default {
     get(id) {
@@ -12,7 +11,7 @@ export default {
         return fetch(`${url}/articles/${id}`, {
             method: "DELETE"
         })
-            .then(l => l.json())
+            // .then(l => l.json())
     },
     removeAndList(id) {
         return fetch(`${url}/articles/${id}`, {

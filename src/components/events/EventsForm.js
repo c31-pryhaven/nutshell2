@@ -1,7 +1,5 @@
 import React, { Component } from "react"
-
-
-let currentUserId = sessionStorage.getItem("userId")
+ 
 export default class EventForm extends Component {
     //Set initial state
     state = {
@@ -9,20 +7,20 @@ export default class EventForm extends Component {
         eventDate: "",
         eventLocation: "",
         userId: ""
-    };
+    }
     handleFieldChange = event => {
-        const stateToChange = {};
+        const stateToChange = {}
         stateToChange[event.target.id] = event.target.value;
         this.setState(stateToChange)
-    };
+    }
     constructNewEvent = event => {
         event.preventDefault();
         const newEvent = {
             eventName: this.state.eventName,
             eventDate: this.state.eventDate,
             eventLocation: this.state.eventLocation,
-            userId: Number(currentUserId)
-        };
+            userId: Number(sessionStorage.getItem("userId"))
+        }
         //create the event and reirect user to events list
         this.props.addEvent(newEvent).then(() => this.props.history.push("/events"))
 
@@ -74,5 +72,5 @@ export default class EventForm extends Component {
             </React.Fragment>
         )
     }
-};
+}
 

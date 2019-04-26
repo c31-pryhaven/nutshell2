@@ -1,33 +1,31 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 
 export default class chatSendMessage extends Component {
     //initial message state.
     state = {
         message: "",
-        userId: parseInt(this.props.currentUserId)
-    };
+        userId: parseInt(sessionStorage.getItem("userId"))
+    }
 
     handleMessageInput = (event) => {
-        console.log(this.props.currentUserId);
-        const stateToChange = {};
-        stateToChange[event.target.id] = event.target.value;
-        this.setState(stateToChange);
-    };
+        const stateToChange = {}
+        stateToChange[event.target.id] = event.target.value
+        this.setState(stateToChange)
+    }
 
     constructNewMessage = event => {
-        event.preventDefault();
+        event.preventDefault()
         if (this.state.message === "") {
-            window.alert("Please enter a message.");
+            window.alert("Please enter a message.")
         } else {
             const message = {
                 message: this.state.message,
-                userId: parseInt(this.props.currentUserId)
-            };
-
+                userId: parseInt(sessionStorage.getItem("userId"))
+            }
             this.props.addMessage(message)
-            this.messageInput.value = "";
+            this.messageInput.value = ""
         }
-    };
+    }
 
     render() {
         return (
@@ -40,7 +38,7 @@ export default class chatSendMessage extends Component {
                         onChange={this.handleMessageInput}
                         id="message"
                         placeholder="new message"
-                        ref={(el) => { this.messageInput = el; }}
+                        ref={(el) => { this.messageInput = el }}
                     />
                 </div>
                 <div className="sendButton">

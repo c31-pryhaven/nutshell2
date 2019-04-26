@@ -1,7 +1,5 @@
 const url = "http://localhost:8088";
 
-
-let currentUserId = sessionStorage.getItem("userId")
 export default {
     get(id) {
         return fetch(`${url}/tasks/${id}`).then(l => l.json())
