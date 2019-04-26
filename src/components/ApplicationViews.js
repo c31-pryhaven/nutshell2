@@ -1,5 +1,5 @@
 import { withRouter } from "react-router"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import React, { Component } from "react"
 import ArticleList from "./articles/ArticlesList"
 import ArticleManager from "./articles/ArticleManager"
@@ -56,8 +56,13 @@ class ApplicationViews extends Component {
     .then(() => EventManager.getAll(currentUserId).then(events => (newState.events = events)))
     .then(() => this.setState(newState))
   }
+
   onLogin = () => {
     this.userSpecificData()
+  }
+
+  onLogout = () => {
+    sessionStorage.clear()
   }
 
   addTask = task => {
@@ -81,12 +86,7 @@ class ApplicationViews extends Component {
 
   completeTask = completedTaskObject => {
     return TaskManager.patch(completedTaskObject)
-      .then(() => TaskManager.getAll())
-      .then(tasks => {
-        this.setState({
-          tasks: tasks
-        })
-      })
+    .then(() => this.userSpecificData())
   }
 
   addEvent = event => {
@@ -165,12 +165,16 @@ class ApplicationViews extends Component {
         <Route
         exact
         path="/messages" 
-        render={props => {
+        render={props => { 
+          if (this.isAuthenticated()) {
             return <ChatList {...props} 
             messages={this.state.messages} 
             addMessage={this.addMessage} 
             users={this.state.users} 
            />
+          } else {
+            return <Redirect to="/" />
+          }
           }}
         />
         <Route
@@ -186,12 +190,16 @@ class ApplicationViews extends Component {
           exact
           path="/events"
           render={props => {
+            if (this.isAuthenticated()) {
             return <EventList
                 {...props}
                 events={this.state.events} 
                 deleteEvent={this.deleteEvent}
                 userSpecificData={this.userSpecificData}
               />
+            } else {
+              return <Redirect to="/" />
+            }
           }}
         />
         <Route
@@ -218,12 +226,17 @@ class ApplicationViews extends Component {
           exact
           path="/tasks"
           render={props => {
+            if (this.isAuthenticated()) {
             return <TaskList {...props} 
             completeTask={this.completeTask} 
             deleteTask={this.deleteTask}
             tasks={this.state.tasks} 
             userSpecificData={this.userSpecificData}
               />
+            } else { 
+            return <Redirect to="/" 
+            />
+          }
           }}
         />
         <Route
@@ -249,11 +262,16 @@ class ApplicationViews extends Component {
           exact
           path="/articles"
           render={props => {
+            if (this.isAuthenticated()) {
             return <ArticleList {...props} 
             articles={this.state.articles} 
             deleteArticle={this.deleteArticle} 
             userSpecificData={this.userSpecificData}
             />
+            } else { 
+            return <Redirect to="/" 
+            />
+          }
           }}
         />
         <Route
