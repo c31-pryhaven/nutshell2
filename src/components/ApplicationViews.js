@@ -27,7 +27,9 @@ import FriendManager from "./friends/FriendManager"
 import Login from "./login/Login"
 import LoginForm from "./login/LoginForm";
 import DashBoardList from "./dashboard/DashBoardList"
+
 let currentUserId = sessionStorage.getItem("userId")
+
 class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
   currentUserId = sessionStorage.getItem("userId")
@@ -39,7 +41,7 @@ class ApplicationViews extends Component {
     friends: [],
     tasks: [],
     events: [],
-    userId: ""
+    userId: []
   }
 
   componentDidMount() {
@@ -54,7 +56,7 @@ class ApplicationViews extends Component {
     .then(() => ChatManager.getAll().then(messages => newState.messages = messages))
     .then(() => FriendManager.getAll().then(friends => (newState.friends = friends)))
     .then(() => TaskManager.getAll(currentUserId).then(tasks => (newState.tasks = tasks)))
-    .then(() => EventManager.getAll().then(events => (newState.events = events)))
+    .then(() => EventManager.getAll(currentUserId).then(events => (newState.events = events)))
     .then(() => this.setState(newState))
   }
   onLogin = () => {
@@ -129,7 +131,7 @@ class ApplicationViews extends Component {
   }
   addArticle = article =>
     ArticleManager.postArticle(article)
-      .then(() => ArticleManager.getAll(currentUserId))
+      .then(() => ArticleManager.getAll())
       .then(article =>
         this.setState({
           articles: article
@@ -181,23 +183,17 @@ class ApplicationViews extends Component {
     return (
       <React.Fragment>
         <Route exact path="/" render={(props) => {
-          return <Login onLogin={this.onLogin} userSpecificData={this.userSpecificData} {...props} />
+          return <Login onLogin={this.onLogin} userSpecificData={this.userSpecificData} 
+          {...props} />
         }}
         />
-        <Route
-          exact
-          path="/articles"
-          render={props => {
-            return (
-              <ArticleList
-                {...props}
-                articles={this.state.articles}
-                deleteArticle={this.deleteArticle}
-                userSpecificData={this.userSpecificData}
-
-              />
-            )
-          }}
+        <Route 
+        exact path="/login/new" render={props => {
+          return (
+            <LoginForm {...props} addUser={this.addUser} onLogin={this.onLogin} 
+            userSpecificData={this.userSpecificData}/>
+          )
+        }}
         />
         <Route
           path="/friends"
@@ -228,8 +224,9 @@ class ApplicationViews extends Component {
             return (
               <EventList
                 {...props}
+                events={this.state.events} 
                 deleteEvent={this.deleteEvent}
-                events={this.state.events} userSpecificData={this.userSpecificData}
+                userSpecificData={this.userSpecificData}
               />
             )
           }}
@@ -238,7 +235,8 @@ class ApplicationViews extends Component {
           exact
           path="/events/new"
           render={props => {
-            return <EventForm {...props} addEvent={this.addEvent} userSpecificData={this.userSpecificData} />
+            return <EventForm {...props} addEvent={this.addEvent} 
+            userSpecificData={this.userSpecificData} />
           }}
         />
         <Route exact path="/events/:eventId(\d+)/edit"
@@ -253,12 +251,8 @@ class ApplicationViews extends Component {
           path="/tasks"
           render={props => {
             return (
-              <TaskList
-                {...props}
-                completeTask={this.completeTask}
-                deleteTask={this.deleteTask}
-                tasks={this.state.tasks}
-                userSpecificData={this.userSpecificData}
+              <TaskList {...props} completeTask={this.completeTask} deleteTask={this.deleteTask}
+                tasks={this.state.tasks} userSpecificData={this.userSpecificData}
               />
             )
           }}
@@ -266,33 +260,52 @@ class ApplicationViews extends Component {
         <Route
           path="/tasks/new"
           render={props => {
-            return <TaskForm {...props} addTask={this.addTask} userSpecificData={this.userSpecificData} />
+            return <TaskForm {...props} 
+            addTask={this.addTask} 
+            userSpecificData={this.userSpecificData} 
+            />
           }}
         />
         <Route
           exact
           path="/tasks/:taskId(\d+)/edit"
           render={props => {
-            return (
-              <TaskEditForm {...props} updateTask={this.updateTask} userSpecificData={this.userSpecificData} />
-            )
+            return <TaskEditForm {...props} 
+              updateTask={this.updateTask} 
+              userSpecificData={this.userSpecificData} 
+              />
+          }}
+        />
+        <Route
+          exact
+          path="/articles"
+          render={props => {
+            return <ArticleList {...props} 
+            articles={this.state.articles} 
+            deleteArticle={this.deleteArticle} 
+            userSpecificData={this.userSpecificData}
+            />
           }}
         />
         <Route
           path="/articles/new"
           render={props => {
-            return <ArticleForm {...props} addArticle={this.addArticle} userSpecificData={this.userSpecificData} />
+            return <ArticleForm {...props}
+             addArticle={this.addArticle}
+             userSpecificData={this.userSpecificData}
+             />
           }}
         />
         <Route
           exact
           path="/articles/:articleId(\d+)/edit"
           render={props => {
-            return (
-              <ArticleEditForm {...props} updateArticle={this.updateArticle} userSpecificData={this.userSpecificData} />
-            )
+            return <ArticleEditForm {...props} 
+            updateArticle={this.updateArticle} 
+            userSpecificData={this.userSpecificData} 
+            />
           }}
-        />
+        />S
         <Route
           exact path="/login/new" render={props => {
             return (

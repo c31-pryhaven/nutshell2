@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 
+
+let currentUserId = sessionStorage.getItem("userId")
 export default class EventForm extends Component {
     //Set initial state
     state = {
@@ -19,12 +21,10 @@ export default class EventForm extends Component {
             eventName: this.state.eventName,
             eventDate: this.state.eventDate,
             eventLocation: this.state.eventLocation,
-            userId: this.state.userId
+            userId: Number(currentUserId)
         };
         //create the event and reirect user to events list
-        this.props
-            .addEvent(newEvent)
-            .then(() => this.props.history.push("/events"))
+        this.props.addEvent(newEvent).then(() => this.props.history.push("/events"))
 
     }
     //render event form when add event is clicked

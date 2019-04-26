@@ -1,11 +1,11 @@
 const url = "http://localhost:8088"
-
+let currentUserId = sessionStorage.getItem("userId")
 export default {
     get(id) {
         return fetch(`${url}/events/${id}`).then(l => l.json())
     },
-    getAll() {
-        return fetch(`${url}/events`).then(l => l.json())
+    getAll(currentUserId) {
+        return fetch(`${url}/events?userId=${currentUserId}`).then(l => l.json())
     },
     delete(id) {
         return fetch(`${url}/events/${id}`, {

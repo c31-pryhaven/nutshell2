@@ -80,6 +80,6 @@ export default class TaskEditForm extends Component {
             </button>
           </form>
         </React.Fragment>
-      );
+      )
     }
 }
